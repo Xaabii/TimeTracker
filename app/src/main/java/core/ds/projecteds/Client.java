@@ -8,17 +8,17 @@ public class Client extends Thread {
 
     public static void main(String[] args) {
         Rellotge rellotge = Rellotge.getInstance();
-        rellotge.començaRellotge(2);
-        TestA1();
+        new Tick(2, rellotge);
+        //rellotge.comencaRellotge(2, rellotge);
+        //TestA1();
+        TestA2();
     }
 
     public static void TestA1() {
-        ArrayList<Activitat> arbre = new ArrayList<>();
-        Projecte arrel = null;
-        arrel.crearProjecte("projecte1", "descripcio");
+        Projecte arrel = new Projecte("arrel", "arrel", null);
         Projecte projecte1 = arrel.crearProjecte("projecte1", "dproj1");
         Projecte projecte2 = projecte1.crearProjecte("projecte2", "dproj2");
-        Tasca tasca3 = projecte1.crearTasca("tasca3", "dtasca3");
+        Tasca tasca3 = projecte1.crearTasca("tasca3", "dt3");
         Tasca tasca1 = projecte2.crearTasca("tasca1", "dt1");
         Tasca tasca2 = projecte2.crearTasca("tasca2", "dt2");
 
@@ -29,6 +29,8 @@ public class Client extends Thread {
             e.printStackTrace();
         }
         tasca3.acabaTasca();
+        Impressor impressor = new Impressor(arrel);
+        impressor.imprimir();
         try {
             sleep(7000);
         } catch (InterruptedException e) {
@@ -47,6 +49,62 @@ public class Client extends Thread {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        tasca3.acabaTasca();
+        impressor.imprimir();
+    }
 
+    public static void TestA2() {
+        Projecte arrel = new Projecte("arrel", "arrel", null);
+        Projecte projecte1 = arrel.crearProjecte("projecte1", "dproj1");
+        Projecte projecte2 = projecte1.crearProjecte("projecte2", "dproj2");
+        Tasca tasca3 = projecte1.crearTasca("tasca3", "dt3");
+        Tasca tasca1 = projecte2.crearTasca("tasca1", "dt1");
+        Tasca tasca2 = projecte2.crearTasca("tasca2", "dt2");
+
+        tasca3.començaTasca();
+        Impressor impressor = new Impressor(arrel);
+        try {
+            sleep(4000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        tasca2.començaTasca();
+        try {
+            sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        tasca3.acabaTasca();
+        try {
+            sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        tasca1.començaTasca();
+        try {
+            sleep(4000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        tasca1.acabaTasca();
+        try {
+            sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        tasca2.acabaTasca();
+        try {
+            sleep(4000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        tasca3.començaTasca();
+        try {
+            sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        tasca3.acabaTasca();
+        impressor.imprimir();
     }
 }

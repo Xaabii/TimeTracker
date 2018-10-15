@@ -57,4 +57,6 @@ public abstract class Activitat {
     public void setDataFinal(Date dataFinal) {
         this.dataFinal = dataFinal;
     }
+
+    public abstract void imprimir();
 }

@@ -6,7 +6,6 @@ import java.util.Date;
 public class Tasca extends Activitat {
 
     private ArrayList<Interval> intervals;
-    private double duradaTasca;
     private double duradaMinima;
     private Projecte pare;
     private boolean tascaActivada;
@@ -17,7 +16,7 @@ public class Tasca extends Activitat {
         this.setDescripcio(descripcio);
         this.setPare(pare);
         this.setDataInicial(null);
-        this.duradaTasca = 0;
+        this.setDurada(0);
         this.intervals = new ArrayList<>();
         this.setTascaActivada(false);
 
@@ -27,6 +26,7 @@ public class Tasca extends Activitat {
         if (!isTascaActivada()) {
             Interval nouInterval = new Interval(this);
             if (this.getDataInicial() == null) this.setDataInicial(nouInterval.getDataInicial());
+            if (this.getPare().getDataInicial() == null) this.getPare().setDataInicial(this.getDataInicial());
             intervals.add(nouInterval);
             setTascaActivada(true);
         }
@@ -45,7 +45,23 @@ public class Tasca extends Activitat {
         if (interval.getDurada() < getDuradaMinima()) {
             this.intervals.remove(interval);
         } else {
-            this.duradaTasca += interval.getDurada();
+            this.setDurada(this.getDurada()+interval.getDurada());
+            this.setDataFinal(interval.getDataFinal());
+            this.getPare().setDurada(this.getPare().getDurada()+this.getDurada());
+            if (this.getPare().getDataInicial() == null) this.getPare().setDataInicial(this.getDataInicial());
+            if (this.getPare().getDataFinal() == null) this.getPare().setDataFinal(this.getDataFinal());
+            //imprimir();
+        }
+    }
+
+    public void imprimir() {
+        System.out.println("TASCA: ");
+        System.out.println(this.getNom());
+        System.out.println("Data inicial: " + this.getDataInicial());
+        System.out.println("Data final: " + this.getDataFinal());
+        System.out.println("Durada: " + this.getDurada());
+        for (Interval i : intervals) {
+            i.impresioInterval();
         }
     }
 
@@ -55,14 +71,6 @@ public class Tasca extends Activitat {
 
     public void setIntervals(ArrayList<Interval> intervals) {
         this.intervals = intervals;
-    }
-
-    public double getDuradaTasca() {
-        return duradaTasca;
-    }
-
-    public void setDuradaTasca(double duradaTasca) {
-        this.duradaTasca = duradaTasca;
     }
 
     public double getDuradaMinima() {

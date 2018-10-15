@@ -21,15 +21,21 @@ public class Interval implements Observer {
 
     public void finalitzaInterval() {
         setDataFinal(Rellotge.getInstance().getHora());
+        Rellotge.getInstance().deleteObserver(this);
         calculaDurada();
     }
-
-
 
     public void calculaDurada() {
         if (getDataFinal() != null && getDataInicial() != null) {
             setDurada((getDataFinal().getTime() - getDataInicial().getTime())/1000);
         }
+    }
+
+    public void impresioInterval() {
+        System.out.println("INTERVAL ----> ");
+        System.out.println("Data inicial: " + getDataInicial());
+        System.out.println("Data final: " + getDataFinal());
+        System.out.println("Durada: " + getDurada());
     }
 
     @Override
@@ -41,6 +47,7 @@ public class Interval implements Observer {
     public double getDurada() {
         return durada;
     }
+
     public void setTascaPare(Tasca tascaPare) {
         this.tascaPare = tascaPare;
     }

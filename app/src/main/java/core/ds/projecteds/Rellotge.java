@@ -29,9 +29,4 @@ public class Rellotge extends Observable {
         setChanged();
         notifyObservers(this);
     }
-
-    public void començaRellotge(long intervalRellotge) {
-        Tick tick = new Tick(intervalRellotge,this);
-        tick.run();
-    }
 }

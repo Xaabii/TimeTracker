@@ -17,19 +17,24 @@ public class Projecte extends Activitat {
 
     public Projecte crearProjecte(String nomProjecte, String descripcio) {
         Projecte nouProjecte = new Projecte(nomProjecte,descripcio,this);
-        if (fills.isEmpty()) {
-            this.setDataInicial(nouProjecte.getDataInicial());
-        }
-        fills.add(nouProjecte);
+        this.fills.add(nouProjecte);
         return nouProjecte;
     }
 
     public Tasca crearTasca(String nomTasca, String descripcio) {
         Tasca novaTasca = new Tasca(nomTasca, descripcio, this);
-        if (fills.isEmpty()) {
-            this.setDataInicial(novaTasca.getDataInicial());
-        }
-        fills.add(novaTasca);
+        this.fills.add(novaTasca);
         return novaTasca;
+    }
+
+    public void imprimir() {
+        System.out.println("PROJECTE: ");
+        System.out.println(this.getNom());
+        System.out.println("Data inicial: " + this.getDataInicial());
+        System.out.println("Data final: " + this.getDataFinal());
+        System.out.println("Durada: " + this.getDurada());
+        for (Activitat f : fills) {
+            f.imprimir();
+        }
     }
 }
