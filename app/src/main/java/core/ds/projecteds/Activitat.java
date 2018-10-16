@@ -9,7 +9,6 @@ public abstract class Activitat {
     protected Date dataFinal;
     protected Projecte pare;
 
-
     public String getNom() {
         return nom;
     }
@@ -59,4 +58,5 @@ public abstract class Activitat {
     }
 
     public abstract void imprimir();
+    public abstract void actualitza();
 }

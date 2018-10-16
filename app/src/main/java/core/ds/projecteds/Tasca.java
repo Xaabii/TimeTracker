@@ -49,9 +49,12 @@ public class Tasca extends Activitat {
             this.setDataFinal(interval.getDataFinal());
             this.getPare().setDurada(this.getPare().getDurada()+this.getDurada());
             if (this.getPare().getDataInicial() == null) this.getPare().setDataInicial(this.getDataInicial());
-            if (this.getPare().getDataFinal() == null) this.getPare().setDataFinal(this.getDataFinal());
-            //imprimir();
+            this.getPare().setDataFinal(this.getDataFinal());
         }
+    }
+
+    public void actualitza(){
+
     }
 
     public void imprimir() {

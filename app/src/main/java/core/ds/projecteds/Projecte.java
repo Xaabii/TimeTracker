@@ -15,6 +15,10 @@ public class Projecte extends Activitat {
         this.setDataInicial(null);
     }
 
+    public ArrayList<Activitat> getFills() {
+        return fills;
+    }
+
     public Projecte crearProjecte(String nomProjecte, String descripcio) {
         Projecte nouProjecte = new Projecte(nomProjecte,descripcio,this);
         this.fills.add(nouProjecte);
@@ -27,6 +31,13 @@ public class Projecte extends Activitat {
         return novaTasca;
     }
 
+    public void actualitza() {
+        this.setDurada(0);
+        for (Activitat f : fills) {
+            this.setDurada(f.getDurada() + this.getDurada());
+        }
+    }
+
     public void imprimir() {
         System.out.println("PROJECTE: ");
         System.out.println(this.getNom());
@@ -34,6 +45,7 @@ public class Projecte extends Activitat {
         System.out.println("Data final: " + this.getDataFinal());
         System.out.println("Durada: " + this.getDurada());
         for (Activitat f : fills) {
+            f.actualitza();
             f.imprimir();
         }
     }

@@ -61,6 +61,7 @@ public class Client extends Thread {
         Tasca tasca1 = projecte2.crearTasca("tasca1", "dt1");
         Tasca tasca2 = projecte2.crearTasca("tasca2", "dt2");
 
+        projecte1.getFills();
         tasca3.començaTasca();
         Impressor impressor = new Impressor(arrel);
         try {
@@ -105,6 +106,8 @@ public class Client extends Thread {
             e.printStackTrace();
         }
         tasca3.acabaTasca();
+        projecte1.getFills();
         impressor.imprimir();
+
     }
 }
