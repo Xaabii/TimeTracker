@@ -12,23 +12,23 @@ public class Rellotge extends Observable {
         hora = new Date();
     }
 
-    public Date getHora() {
-        return hora;
-    }
-
-    public void setHora(Date hora) {
-        this.hora = hora;
-    }
 
     public static Rellotge getInstance() {
         if (instancia == null) return new Rellotge();
         return instancia;
     }
 
-    public Date tick() {
+    public void notificarObservadors() {
         setHora(new Date());
         setChanged();
         notifyObservers(this);
-        return getHora();
     }
+
+    public Date getHora() {
+        return hora;
+    }
+    public void setHora(Date hora) {
+        this.hora = hora;
+    }
+
 }

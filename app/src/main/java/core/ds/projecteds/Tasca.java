@@ -8,6 +8,8 @@ import java.util.Date;
 //Aquesta classe implementa la estructura Visitor. N'accepta per tal d'imprimir i exportar i importar les dades desades.
 public class Tasca extends Activitat {
 
+    private static final long serialVersionUID = 1L;
+
     private ArrayList<Interval> intervals;
     private double duradaMinima;
     private Projecte pare;
@@ -71,9 +73,6 @@ public class Tasca extends Activitat {
         System.out.println("Data inicial: " + this.getDataInicial());
         System.out.println("Data final: " + this.getDataFinal());
         System.out.println("Durada: " + this.getDurada());
-        for (Interval i : intervals) {
-            i.impresioInterval();
-        }
     }
 
     //Permet l'implementació del Visitor per a ell i els seus fills (recorrent tot l'arbre)

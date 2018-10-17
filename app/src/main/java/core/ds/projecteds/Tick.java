@@ -17,7 +17,7 @@ public class Tick extends Thread {
         while(true) {
             try {
                 sleep(tempsInterval);
-                rellotge.tick();
+                rellotge.notificarObservadors();
             } catch (InterruptedException e) {
                 e.printStackTrace();
                 break;

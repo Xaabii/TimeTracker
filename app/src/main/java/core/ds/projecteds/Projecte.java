@@ -9,6 +9,7 @@ import java.util.Observer;
 //Aquesta classe implementa la estructura Visitor. N'accepta per tal d'imprimir i exportar i importar les dades desades.
 public class Projecte extends Activitat {
 
+    private static final long serialVersionUID = 1L;
     private ArrayList<Activitat> fills;
 
     public Projecte(String nom, String descripcio, Projecte projectePare) {
@@ -17,7 +18,6 @@ public class Projecte extends Activitat {
         this.setDescripcio(descripcio);
         this.setPare(projectePare);
         this.setDataInicial(null);
-
     }
 
     public ArrayList<Activitat> getFills() {

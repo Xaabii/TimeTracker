@@ -5,6 +5,9 @@ import java.util.Observable;
 import java.util.Observer;
 
 public class Interval implements Observer, Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     private Date dataInicial;
     private Date dataFinal;
     private Tasca tascaPare;
@@ -43,6 +46,7 @@ public class Interval implements Observer, Serializable {
     public void update(Observable o, Object arg) {
         Rellotge updateRellotge = (Rellotge)o;
         setDataFinal(updateRellotge.getHora());
+
     }
 
     public double getDurada() {
