@@ -1,10 +1,10 @@
 package core.ds.projecteds;
-
+import java.io.*;
 import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
 
-public class Interval implements Observer {
+public class Interval implements Observer, Serializable {
     private Date dataInicial;
     private Date dataFinal;
     private Tasca tascaPare;
@@ -38,6 +38,7 @@ public class Interval implements Observer {
         System.out.println("Durada: " + getDurada());
     }
 
+    //Mètode del patró de disseny Observer, que rep la notificació del canvi d'estat del rellotge.
     @Override
     public void update(Observable o, Object arg) {
         Rellotge updateRellotge = (Rellotge)o;

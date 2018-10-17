@@ -1,13 +1,23 @@
 package core.ds.projecteds;
+import java.io.Serializable;
+import java.io.*;
+import java.util.ArrayList;
 import java.util.Date;
 
-public abstract class Activitat {
+//És una classe abstracta de la qual hereten projecte i tasca.
+public abstract class Activitat implements Serializable {
     protected String nom;
     protected String descripcio;
     protected double durada;
     protected Date dataInicial;
     protected Date dataFinal;
     protected Projecte pare;
+
+    private static final long serialVersionUID = 1L;
+    public abstract ArrayList<Activitat> getFills();
+    public abstract void imprimir();
+    public abstract void actualitza();
+    public abstract void acceptaVisitor(Visitor v);
 
     public String getNom() {
         return nom;
@@ -57,6 +67,5 @@ public abstract class Activitat {
         this.dataFinal = dataFinal;
     }
 
-    public abstract void imprimir();
-    public abstract void actualitza();
+
 }

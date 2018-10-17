@@ -1,13 +1,14 @@
 package core.ds.projecteds;
 
+//És una classe relacionada amb el rellotge, que simula el pas del temps mitjançant els threads.
 public class Tick extends Thread {
     private long tempsInterval;
     Rellotge rellotge;
 
     public Tick(long interval, Rellotge rellotge) {
         setDaemon(true);
-        this.tempsInterval = interval;
-        this.rellotge = rellotge;
+        setInterval(interval);
+        setRellotge(rellotge);
         start();
     }
 
@@ -19,6 +20,7 @@ public class Tick extends Thread {
                 rellotge.tick();
             } catch (InterruptedException e) {
                 e.printStackTrace();
+                break;
             }
         }
     }

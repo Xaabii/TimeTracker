@@ -3,6 +3,7 @@ package core.ds.projecteds;
 import java.util.Observable;
 import java.util.Date;
 
+//Classe que implementa el patró Observer, que simula un rellotge virtual.
 public class Rellotge extends Observable {
     private Date hora;
     private static Rellotge instancia = null;
@@ -24,9 +25,10 @@ public class Rellotge extends Observable {
         return instancia;
     }
 
-    public void tick() {
+    public Date tick() {
         setHora(new Date());
         setChanged();
         notifyObservers(this);
+        return getHora();
     }
 }

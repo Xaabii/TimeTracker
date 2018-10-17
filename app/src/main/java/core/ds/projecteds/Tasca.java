@@ -3,6 +3,9 @@ package core.ds.projecteds;
 import java.util.ArrayList;
 import java.util.Date;
 
+
+//És una abstracció d'Activitat, tota tasca té intervals (els comença i els acaba)
+//Aquesta classe implementa la estructura Visitor. N'accepta per tal d'imprimir i exportar i importar les dades desades.
 public class Tasca extends Activitat {
 
     private ArrayList<Interval> intervals;
@@ -10,7 +13,6 @@ public class Tasca extends Activitat {
     private Projecte pare;
     private boolean tascaActivada;
 
-    //Falta definir el tipus
     public Tasca(String nom, String descripcio, Projecte pare) {
         this.setNom(nom);
         this.setDescripcio(descripcio);
@@ -19,7 +21,6 @@ public class Tasca extends Activitat {
         this.setDurada(0);
         this.intervals = new ArrayList<>();
         this.setTascaActivada(false);
-
     }
 
     public void començaTasca() {
@@ -41,9 +42,11 @@ public class Tasca extends Activitat {
         }
     }
 
+    //Es comrpova si la durada minima del interval es compleix, si no, es descarta. Si es compleix s'actualitza la durada i la data final de la tasca.
     public void comprovarDurada(Interval interval) {
         if (interval.getDurada() < getDuradaMinima()) {
             this.intervals.remove(interval);
+            Rellotge.getInstance().deleteObserver(interval);
         } else {
             this.setDurada(this.getDurada()+interval.getDurada());
             this.setDataFinal(interval.getDataFinal());
@@ -57,6 +60,11 @@ public class Tasca extends Activitat {
 
     }
 
+    @Override
+    public ArrayList<Activitat> getFills() {
+        return null;
+    }
+
     public void imprimir() {
         System.out.println("TASCA: ");
         System.out.println(this.getNom());
@@ -66,6 +74,11 @@ public class Tasca extends Activitat {
         for (Interval i : intervals) {
             i.impresioInterval();
         }
+    }
+
+    //Permet l'implementació del Visitor per a ell i els seus fills (recorrent tot l'arbre)
+    public void acceptaVisitor(Visitor visitor){
+        visitor.visitaTasca(this);
     }
 
     public ArrayList<Interval> getIntervals() {
