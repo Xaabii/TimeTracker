@@ -14,14 +14,16 @@ public class Rellotge extends Observable {
 
 
     public static Rellotge getInstance() {
-        if (instancia == null) return new Rellotge();
+        if (instancia == null) {
+            instancia = new Rellotge();
+        }
         return instancia;
     }
 
     public void notificarObservadors() {
         setHora(new Date());
         setChanged();
-        notifyObservers(this);
+        notifyObservers();
     }
 
     public Date getHora() {

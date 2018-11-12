@@ -1,7 +1,6 @@
 package core.ds.projecteds;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class Client extends Thread {
 
@@ -9,7 +8,7 @@ public class Client extends Thread {
 
     public static void main(String[] args) throws IOException {
         Rellotge rellotge = Rellotge.getInstance();
-        new Tick(2, rellotge);
+        new Tick(2000, rellotge);
         Projecte projecteTest = new Projecte("arrel","arrel",null);
         TestA1(projecteTest);
 
@@ -34,8 +33,8 @@ public class Client extends Thread {
         System.out.println("--------- TEST A1 ---------");
 
         Projecte projecte1 = projecteTest.crearProjecte("projecte1", "dproj1");
-        Projecte projecte2 = projecte1.crearProjecte("projecte2", "dproj2");
         Tasca tasca3 = projecte1.crearTasca("tasca3", "dt3");
+        Projecte projecte2 = projecte1.crearProjecte("projecte2", "dproj2");
         Tasca tasca1 = projecte2.crearTasca("tasca1", "dt1");
         Tasca tasca2 = projecte2.crearTasca("tasca2", "dt2");
         Impressor impressor = new Impressor(projecteTest);
@@ -52,6 +51,7 @@ public class Client extends Thread {
             tasca3.començaTasca();
             sleep(2000);
             tasca3.acabaTasca();
+
             projecteTest.acceptaVisitor(impressor);
             projecteTest.acceptaVisitor(fitxer);
         } catch (InterruptedException e) {
@@ -60,11 +60,11 @@ public class Client extends Thread {
     }
 
     public static void TestA2(Projecte projecteTest) throws IOException {
-        System.out.println("--------- TEST A2 ---------");
+        System.out.println("\n\n--------- TEST A2 ---------");
 
         Projecte projecte1 = projecteTest.crearProjecte("projecte1", "dproj1");
-        Projecte projecte2 = projecte1.crearProjecte("projecte2", "dproj2");
         Tasca tasca3 = projecte1.crearTasca("tasca3", "dt3");
+        Projecte projecte2 = projecte1.crearProjecte("projecte2", "dproj2");
         Tasca tasca1 = projecte2.crearTasca("tasca1", "dt1");
         Tasca tasca2 = projecte2.crearTasca("tasca2", "dt2");
         Impressor impressor = new Impressor(projecteTest);

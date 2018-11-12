@@ -8,17 +8,24 @@ public class Impressor extends Visitor implements Observer {
 
     @Override
     public void visitaTasca(Tasca t) {
-        t.imprimir();
+        if (t.getDataInicial() != null) {
+            System.out.println(t.getNom() + "      " + t.getDataInicial() + "    " + t.getDataFinal() + "    " + t.getDurada());
+        } else {
+            System.out.println(t.getNom());
+        }
     }
 
     @Override
     public void visitaProjecte(Projecte p) {
-        p.imprimir();
+        if (p.getDataInicial() != null) {
+            System.out.println(p.getNom() + "   " + p.getDataInicial() + "    " + p.getDataFinal() + "    " + p.getDurada());
+        } else {
+            System.out.println(p.getNom());
+        }
     }
 
     public Impressor(Projecte projecte) {
-        Rellotge rellotge = Rellotge.getInstance();
-        rellotge.addObserver(this);
+        Rellotge.getInstance().addObserver(this);
         setNodeSeleccionat(projecte);
     }
 
