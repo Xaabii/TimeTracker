@@ -1,26 +1,23 @@
 package core.ds.projecteds;
 
 import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
-
+import java.util.Collection;
 
 //És una bstracció d'Activitat, tot projecte pot tenir subprojectes i/o tasques que penjen d'ell (seràn els seusfills)
 //Aquesta classe implementa la estructura Visitor. N'accepta per tal d'imprimir i exportar i importar les dades desades.
 public class Projecte extends Activitat {
 
     private static final long serialVersionUID = 1L;
-    private ArrayList<Activitat> fills;
+    private Collection<Activitat> fills = new ArrayList<>();
 
     public Projecte(String nom, String descripcio, Projecte projectePare) {
         this.setNom(nom);
-        this.fills = new ArrayList<>();
         this.setDescripcio(descripcio);
         this.setPare(projectePare);
-        this.setDataInicial(null);
     }
 
-    public ArrayList<Activitat> getFills() {
+    @Override
+    public Collection<Activitat> getFills() {
         return fills;
     }
 
@@ -35,28 +32,46 @@ public class Projecte extends Activitat {
         this.fills.add(novaTasca);
         return novaTasca;
     }
-    //S'actualitza ladurada del projecte en funció de la durada dels seus fills
-    public void actualitza() {
-        this.setDurada(0);
-        for (Activitat f : fills) {
-            this.setDurada(f.getDurada() + this.getDurada());
+
+
+    public void actualitza(Projecte projecteActual) {
+        if (projecteActual.getNom() != "arrel") {
+            projecteActual.setDurada(0);
+            if (!projecteActual.getFills().isEmpty()) {
+                for (Activitat fill : getFills()) {
+                    projecteActual.setDurada(fill.getDurada() + projecteActual.getDurada());
+                    if (fill.getDataFinal() != null) {
+                        if (projecteActual.getDataFinal() != null) {
+                            if (fill.getDataFinal().compareTo(projecteActual.getDataFinal()) > 0) {
+                                projecteActual.setDataFinal(fill.getDataFinal());
+                            }
+                        } else {
+                            projecteActual.setDataFinal(fill.getDataFinal());
+                        }
+                    }
+                }
+            }
+            if (projecteActual.getPare().getNom() != "arrel") {
+                actualitza(projecteActual.getPare());
+            }
         }
     }
 
-
-    public void imprimir() {
-        System.out.println("PROJECTE: ");
-        System.out.println(this.getNom());
-        if (this.getNom() != "arrel") actualitza();
-        System.out.println("Data inicial: " + this.getDataInicial());
-        System.out.println("Data final: " + this.getDataFinal());
-        System.out.println("Durada: " + this.getDurada());
-
+    public void iniciTasca(Tasca tasca) {
+        if (this.getDataInicial() == null) this.setDataInicial(tasca.getDataInicial());
+        this.setDataFinal(tasca.getDataFinal());
     }
 
     //Permet l'implementació del Visitor per a ell i els seus fills (recorrent tot l'arbre)
     public void acceptaVisitor(Visitor visitor){
-        visitor.visitaProjecte(this);
+        if (!this.getNom().equals("arrel")) {
+            actualitza(this);
+            visitor.visitaProjecte(this);
+        } else if (visitor instanceof Impressor){
+            System.out.println("\n\n");
+            System.out.println("Nom         Temps Inici                      Temps Final                      Durada(hh:mm:ss)");
+            System.out.println("----------|--------------------------------|--------------------------------|----------------");
+        }
         for (Activitat f : fills) {
             f.acceptaVisitor(visitor);
         }

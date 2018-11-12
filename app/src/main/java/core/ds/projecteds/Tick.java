@@ -25,16 +25,8 @@ public class Tick extends Thread {
         }
     }
 
-    public long getInterval() {
-        return tempsInterval;
-    }
-
     public void setInterval(long interval) {
         this.tempsInterval = interval;
-    }
-
-    public Rellotge getRellotge() {
-        return rellotge;
     }
 
     public void setRellotge(Rellotge rellotge) {

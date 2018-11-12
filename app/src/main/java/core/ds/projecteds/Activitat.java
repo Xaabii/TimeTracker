@@ -1,7 +1,6 @@
 package core.ds.projecteds;
 import java.io.Serializable;
-import java.io.*;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 
 //És una classe abstracta de la qual hereten projecte i tasca.
@@ -14,29 +13,20 @@ public abstract class Activitat implements Serializable {
     protected Projecte pare;
 
     private static final long serialVersionUID = 1L;
-    public abstract ArrayList<Activitat> getFills();
-    public abstract void imprimir();
-    public abstract void actualitza();
+    public abstract Collection<Activitat> getFills();
+
     public abstract void acceptaVisitor(Visitor v);
 
     public String getNom() {
         return nom;
     }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
+    public void setNom(String nom) { this.nom = nom; }
 
     public Projecte getPare() {
         return pare;
     }
-
     public void setPare(Projecte pare) {
         this.pare = pare;
-    }
-
-    public String getDescripcio() {
-        return descripcio;
     }
 
     public void setDescripcio(String descripcio) {
@@ -46,7 +36,6 @@ public abstract class Activitat implements Serializable {
     public double getDurada() {
         return durada;
     }
-
     public void setDurada(double durada) {
         this.durada = durada;
     }
@@ -54,7 +43,6 @@ public abstract class Activitat implements Serializable {
     public Date getDataInicial() {
         return dataInicial;
     }
-
     public void setDataInicial(Date dataInicial) {
         this.dataInicial = dataInicial;
     }
@@ -62,7 +50,6 @@ public abstract class Activitat implements Serializable {
     public Date getDataFinal() {
         return dataFinal;
     }
-
     public void setDataFinal(Date dataFinal) {
         this.dataFinal = dataFinal;
     }

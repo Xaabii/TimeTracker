@@ -1,7 +1,7 @@
 package core.ds.projecteds;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Collection;
 
 
 //És una abstracció d'Activitat, tota tasca té intervals (els comença i els acaba)
@@ -10,37 +10,40 @@ public class Tasca extends Activitat {
 
     private static final long serialVersionUID = 1L;
 
-    private ArrayList<Interval> intervals;
+    private Collection<Interval> intervals = new ArrayList<>();
     private double duradaMinima;
     private Projecte pare;
     private boolean tascaActivada;
+    Interval intervalActual;
 
     public Tasca(String nom, String descripcio, Projecte pare) {
         this.setNom(nom);
         this.setDescripcio(descripcio);
         this.setPare(pare);
         this.setDataInicial(null);
+        this.setDataFinal(null);
         this.setDurada(0);
-        this.intervals = new ArrayList<>();
+        this.setDuradaMinima(1);
         this.setTascaActivada(false);
     }
 
     public void començaTasca() {
         if (!isTascaActivada()) {
             Interval nouInterval = new Interval(this);
-            if (this.getDataInicial() == null) this.setDataInicial(nouInterval.getDataInicial());
-            if (this.getPare().getDataInicial() == null) this.getPare().setDataInicial(this.getDataInicial());
-            intervals.add(nouInterval);
+            setIntervalActual(nouInterval);
             setTascaActivada(true);
+            if (this.getDataInicial() == null) setDataInicial(nouInterval.getDataInicial());
+            this.setDataFinal(nouInterval.getDataFinal());
+            this.getPare().iniciTasca(this);
+            intervals.add(nouInterval);
         }
     }
 
     public void acabaTasca() {
         if (isTascaActivada()) {
-            Interval intervalActual = this.intervals.get(this.intervals.size()-1);
-            intervalActual.finalitzaInterval();
             setTascaActivada(false);
-            comprovarDurada(intervalActual);
+            getIntervalActual().finalitzaInterval();
+            comprovarDurada(getIntervalActual());
         }
     }
 
@@ -50,16 +53,24 @@ public class Tasca extends Activitat {
             this.intervals.remove(interval);
             Rellotge.getInstance().deleteObserver(interval);
         } else {
-            this.setDurada(this.getDurada()+interval.getDurada());
             this.setDataFinal(interval.getDataFinal());
-            this.getPare().setDurada(this.getPare().getDurada()+this.getDurada());
-            if (this.getPare().getDataInicial() == null) this.getPare().setDataInicial(this.getDataInicial());
-            this.getPare().setDataFinal(this.getDataFinal());
+            this.setDurada(0);
+            for (Interval i : getIntervals()) {
+                setDurada(i.getDurada()+getDurada());
+            }
+            getPare().actualitza(this.getPare());
         }
     }
 
-    public void actualitza(){
-
+    public void actualitza() {
+        if (!this.getIntervals().isEmpty()) {
+            this.setDataFinal(getIntervalActual().getDataFinal());
+            this.setDurada(0);
+            for (Interval i : getIntervals()) {
+                this.setDurada(i.getDurada() + this.getDurada());
+            }
+            getPare().actualitza(this.getPare());
+        }
     }
 
     @Override
@@ -67,39 +78,25 @@ public class Tasca extends Activitat {
         return null;
     }
 
-    public void imprimir() {
-        System.out.println("TASCA: ");
-        System.out.println(this.getNom());
-        System.out.println("Data inicial: " + this.getDataInicial());
-        System.out.println("Data final: " + this.getDataFinal());
-        System.out.println("Durada: " + this.getDurada());
-    }
-
     //Permet l'implementació del Visitor per a ell i els seus fills (recorrent tot l'arbre)
     public void acceptaVisitor(Visitor visitor){
+        actualitza();
         visitor.visitaTasca(this);
     }
 
-    public ArrayList<Interval> getIntervals() {
+    public Collection<Interval> getIntervals() {
         return intervals;
     }
 
-    public void setIntervals(ArrayList<Interval> intervals) {
-        this.intervals = intervals;
-    }
+    public Interval getIntervalActual() { return intervalActual; }
+    public void setIntervalActual(Interval intervalActual) {  this.intervalActual = intervalActual; }
 
-    public double getDuradaMinima() {
-        return duradaMinima;
-    }
-
+    public double getDuradaMinima() { return duradaMinima; }
     public void setDuradaMinima(double duradaMinima) {
         this.duradaMinima = duradaMinima;
     }
 
-    public boolean isTascaActivada() {
-        return tascaActivada;
-    }
-
+    public boolean isTascaActivada() { return tascaActivada; }
     public void setTascaActivada(boolean tascaActivada) {
         this.tascaActivada = tascaActivada;
     }
@@ -107,7 +104,6 @@ public class Tasca extends Activitat {
     public Projecte getPare() {
         return pare;
     }
-
     public void setPare(Projecte pare) {
         this.pare = pare;
     }

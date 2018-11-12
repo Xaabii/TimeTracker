@@ -16,29 +16,18 @@ public class Interval implements Observer, Serializable {
     private boolean intervalActivat;
 
     public Interval(Tasca pare) {
-        this.setTascaPare(pare);
-        Rellotge.getInstance().addObserver(this);
-        setDataInicial(Rellotge.getInstance().getHora());
-        setDataFinal(null);
+        setTascaPare(pare);
+        Rellotge rellotge = Rellotge.getInstance();
+        rellotge.addObserver(this);
+        setDataInicial(rellotge.getHora());
+        setDataFinal(rellotge.getHora());
+        setDurada((getDataFinal().getTime()-getDataInicial().getTime())/1000);
     }
 
     public void finalitzaInterval() {
-        setDataFinal(Rellotge.getInstance().getHora());
-        Rellotge.getInstance().deleteObserver(this);
-        calculaDurada();
-    }
-
-    public void calculaDurada() {
-        if (getDataFinal() != null && getDataInicial() != null) {
-            setDurada((getDataFinal().getTime() - getDataInicial().getTime())/1000);
-        }
-    }
-
-    public void impresioInterval() {
-        System.out.println("INTERVAL ----> ");
-        System.out.println("Data inicial: " + getDataInicial());
-        System.out.println("Data final: " + getDataFinal());
-        System.out.println("Durada: " + getDurada());
+        Rellotge rellotge = Rellotge.getInstance();
+        rellotge.deleteObserver(this);
+        setDurada((getDataFinal().getTime() - getDataInicial().getTime())/1000);
     }
 
     //Mètode del patró de disseny Observer, que rep la notificació del canvi d'estat del rellotge.
@@ -46,13 +35,11 @@ public class Interval implements Observer, Serializable {
     public void update(Observable o, Object arg) {
         Rellotge updateRellotge = (Rellotge)o;
         setDataFinal(updateRellotge.getHora());
-
+        setDurada((getDataFinal().getTime() - getDataInicial().getTime())/1000);
+        getTascaPare().actualitza();
     }
 
-    public double getDurada() {
-        return durada;
-    }
-
+    public Tasca getTascaPare() { return this.tascaPare;}
     public void setTascaPare(Tasca tascaPare) {
         this.tascaPare = tascaPare;
     }
@@ -60,17 +47,20 @@ public class Interval implements Observer, Serializable {
     public Date getDataInicial() {
         return dataInicial;
     }
-
     public void setDataInicial(Date dataInicial) {
         this.dataInicial = dataInicial;
+    }
+
+    public double getDurada() {
+        return durada;
     }
     public void setDurada(double durada) {
         this.durada = durada;
     }
+
     public Date getDataFinal() {
         return dataFinal;
     }
-
     public void setDataFinal(Date dataFinal) {
         this.dataFinal = dataFinal;
     }
@@ -78,7 +68,6 @@ public class Interval implements Observer, Serializable {
     public boolean isIntervalActivat() {
         return intervalActivat;
     }
-
     public void setIntervalActivat(boolean intervalActivat) {
         this.intervalActivat = intervalActivat;
     }
