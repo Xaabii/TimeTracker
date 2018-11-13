@@ -9,7 +9,8 @@ public class Impressor extends Visitor implements Observer {
     @Override
     public void visitaTasca(Tasca t) {
         if (t.getDataInicial() != null) {
-            System.out.println(t.getNom() + "      " + t.getDataInicial() + "    " + t.getDataFinal() + "    " + t.getDurada());
+            System.out.println(t.getNom() + "      " + t.getDataInicial()
+                    + "    " + t.getDataFinal() + "    " + t.getDurada());
         } else {
             System.out.println(t.getNom());
         }
@@ -18,7 +19,8 @@ public class Impressor extends Visitor implements Observer {
     @Override
     public void visitaProjecte(Projecte p) {
         if (p.getDataInicial() != null) {
-            System.out.println(p.getNom() + "   " + p.getDataInicial() + "    " + p.getDataFinal() + "    " + p.getDurada());
+            System.out.println(p.getNom() + "   " + p.getDataInicial()
+                    + "    " + p.getDataFinal() + "    " + p.getDurada());
         } else {
             System.out.println(p.getNom());
         }
@@ -34,11 +36,11 @@ public class Impressor extends Visitor implements Observer {
         getNodeSeleccionat().acceptaVisitor(this);
     }
 
-    public Projecte getNodeSeleccionat() {
+    private Projecte getNodeSeleccionat() {
         return nodeSeleccionat;
     }
 
-    public void setNodeSeleccionat(Projecte nodeSeleccionat) {
+    private void setNodeSeleccionat(Projecte nodeSeleccionat) {
         this.nodeSeleccionat = nodeSeleccionat;
     }
 }

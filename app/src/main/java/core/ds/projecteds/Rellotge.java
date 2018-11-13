@@ -29,7 +29,7 @@ public class Rellotge extends Observable {
     public Date getHora() {
         return hora;
     }
-    public void setHora(Date hora) {
+    private void setHora(Date hora) {
         this.hora = hora;
     }
 

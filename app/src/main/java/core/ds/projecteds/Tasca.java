@@ -3,20 +3,28 @@ package core.ds.projecteds;
 import java.util.ArrayList;
 import java.util.Collection;
 
-
-//És una abstracció d'Activitat, tota tasca té intervals (els comença i els acaba)
-//Aquesta classe implementa la estructura Visitor. N'accepta per tal d'imprimir i exportar i importar les dades desades.
+/*Classe Tasca: Forma part del patró composite, per tant
+ * agafa tots els atributs i mètodes de la classe abstracte Activitat.
+ * Aquesta classe és l'encarregada de crear una tasca, la qual està
+ * formada per intervals. La suma d'aquests serà la durada total de la
+ * tasca. Tota tasca pertany a una projecte pare.
+ * Aquesta classe accepta els visitor per tal d'imprimir i
+ * exportar/importar les dades desades.
+ */
 public class Tasca extends Activitat {
 
+    /*Guarda un número de la versió, perquè si es fa una
+     * versió més nova es pugui identificar */
     private static final long serialVersionUID = 1L;
 
-    private Collection<Interval> intervals = new ArrayList<>();
+
+    private final Collection<Interval> intervals = new ArrayList<>();
     private double duradaMinima;
     private Projecte pare;
     private boolean tascaActivada;
-    Interval intervalActual;
+    private Interval intervalActual;
 
-    public Tasca(String nom, String descripcio, Projecte pare) {
+    public Tasca(final String nom, final String descripcio, final Projecte pare) {
         this.setNom(nom);
         this.setDescripcio(descripcio);
         this.setPare(pare);
@@ -27,7 +35,7 @@ public class Tasca extends Activitat {
         this.setTascaActivada(false);
     }
 
-    public void començaTasca() {
+    public void comencaTasca() {
         if (!isTascaActivada()) {
             Interval nouInterval = new Interval(this);
             setIntervalActual(nouInterval);
@@ -47,8 +55,9 @@ public class Tasca extends Activitat {
         }
     }
 
-    //Es comrpova si la durada minima del interval es compleix, si no, es descarta. Si es compleix s'actualitza la durada i la data final de la tasca.
-    public void comprovarDurada(Interval interval) {
+    //Es comprova si la durada minima del interval es compleix, si no, es descarta.
+    // Si es compleix s'actualitza la durada i la data final de la tasca.
+    private void comprovarDurada(Interval interval) {
         if (interval.getDurada() < getDuradaMinima()) {
             this.intervals.remove(interval);
             Rellotge.getInstance().deleteObserver(interval);
@@ -84,27 +93,27 @@ public class Tasca extends Activitat {
         visitor.visitaTasca(this);
     }
 
-    public Collection<Interval> getIntervals() {
+    private Collection<Interval> getIntervals() {
         return intervals;
     }
 
-    public Interval getIntervalActual() { return intervalActual; }
-    public void setIntervalActual(Interval intervalActual) {  this.intervalActual = intervalActual; }
+    private Interval getIntervalActual() { return intervalActual; }
+    private void setIntervalActual(Interval intervalActual) {  this.intervalActual = intervalActual; }
 
-    public double getDuradaMinima() { return duradaMinima; }
-    public void setDuradaMinima(double duradaMinima) {
+    private double getDuradaMinima() { return duradaMinima; }
+    private void setDuradaMinima(double duradaMinima) {
         this.duradaMinima = duradaMinima;
     }
 
-    public boolean isTascaActivada() { return tascaActivada; }
-    public void setTascaActivada(boolean tascaActivada) {
+    private boolean isTascaActivada() { return tascaActivada; }
+    private void setTascaActivada(boolean tascaActivada) {
         this.tascaActivada = tascaActivada;
     }
 
-    public Projecte getPare() {
+    private Projecte getPare() {
         return pare;
     }
-    public void setPare(Projecte pare) {
+    private void setPare(Projecte pare) {
         this.pare = pare;
     }
 }

@@ -1,18 +1,17 @@
 package core.ds.projecteds;
 
-import java.io.IOException;
-
 public class Client extends Thread {
 
     private static double duracioMinimaInterval = 1;
 
-    public static void main(String[] args) throws IOException {
+    public static void main(final String[] args) {
+        final long duracioInterval = 2000;
         Rellotge rellotge = Rellotge.getInstance();
-        new Tick(2000, rellotge);
-        Projecte projecteTest = new Projecte("arrel","arrel",null);
+        new Tick(duracioInterval, rellotge);
+        Projecte projecteTest = new Projecte("arrel", "arrel", null);
         TestA1(projecteTest);
 
-        projecteTest = new Projecte("arrel","arrel",null);
+        projecteTest = new Projecte("arrel", "arrel", null);
         TestA2(projecteTest);
 
        /* Fitxer f = new Fitxer();
@@ -20,18 +19,22 @@ public class Client extends Thread {
         llegir(p);*/
     }
 
-    public static void llegir(Activitat p) {
+    private static void llegir(final Activitat p) {
         if (p instanceof Projecte) {
             for (Activitat g : p.getFills()) {
-                System.out.println("el projecte: " + g.getNom() + " amb durada " + g.getDurada());
+                System.out.println("el projecte: " + g.getNom()
+                        + " amb durada " + g.getDurada());
                 llegir(g);
             }
         }
     }
 
-    public static void TestA1(Projecte projecteTest) {
+    private static void TestA1(final Projecte projecteTest) {
         System.out.println("--------- TEST A1 ---------");
-
+        final int tresMil = 3000;
+        final int setMil = 7000;
+        final int deuMil = 10000;
+        final int dosMil = 2000;
         Projecte projecte1 = projecteTest.crearProjecte("projecte1", "dproj1");
         Tasca tasca3 = projecte1.crearTasca("tasca3", "dt3");
         Projecte projecte2 = projecte1.crearProjecte("projecte2", "dproj2");
@@ -41,15 +44,15 @@ public class Client extends Thread {
         Fitxer fitxer = new Fitxer();
 
         try {
-            tasca3.començaTasca();
-            sleep(3000);
+            tasca3.comencaTasca();
+            sleep(tresMil);
             tasca3.acabaTasca();
-            sleep(7000);
-            tasca2.començaTasca();
-            sleep(10000);
+            sleep(setMil);
+            tasca2.comencaTasca();
+            sleep(deuMil);
             tasca2.acabaTasca();
-            tasca3.començaTasca();
-            sleep(2000);
+            tasca3.comencaTasca();
+            sleep(dosMil);
             tasca3.acabaTasca();
 
             projecteTest.acceptaVisitor(impressor);
@@ -59,8 +62,11 @@ public class Client extends Thread {
         }
     }
 
-    public static void TestA2(Projecte projecteTest) throws IOException {
+    private static void TestA2(final Projecte projecteTest) {
         System.out.println("\n\n--------- TEST A2 ---------");
+        final int quatreMil = 4000;
+        final int dosMil = 2000;
+
 
         Projecte projecte1 = projecteTest.crearProjecte("projecte1", "dproj1");
         Tasca tasca3 = projecte1.crearTasca("tasca3", "dt3");
@@ -71,20 +77,20 @@ public class Client extends Thread {
         Fitxer fitxer = new Fitxer();
 
         try {
-            tasca3.començaTasca();
-            sleep(4000);
-            tasca2.començaTasca();
-            sleep(2000);
+            tasca3.comencaTasca();
+            sleep(quatreMil);
+            tasca2.comencaTasca();
+            sleep(dosMil);
             tasca3.acabaTasca();
-            sleep(2000);
-            tasca1.començaTasca();
-            sleep(4000);
+            sleep(dosMil);
+            tasca1.comencaTasca();
+            sleep(quatreMil);
             tasca1.acabaTasca();
-            sleep(2000);
+            sleep(dosMil);
             tasca2.acabaTasca();
-            sleep(4000);
-            tasca3.començaTasca();
-            sleep(2000);
+            sleep(quatreMil);
+            tasca3.comencaTasca();
+            sleep(dosMil);
             tasca3.acabaTasca();
         } catch (InterruptedException e) {
             e.printStackTrace();

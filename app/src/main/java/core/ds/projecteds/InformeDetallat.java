@@ -1,4 +1,4 @@
 package core.ds.projecteds;
 
-public class InformeDetallat extends Informe {
+private class InformeDetallat extends Informe {
 }

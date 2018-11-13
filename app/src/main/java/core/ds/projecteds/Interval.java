@@ -4,9 +4,7 @@ import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
 
-public class Interval implements Observer, Serializable {
-
-    private static final long serialVersionUID = 1L;
+private class Interval implements Observer, Serializable {
 
     private Date dataInicial;
     private Date dataFinal;
@@ -21,47 +19,50 @@ public class Interval implements Observer, Serializable {
         rellotge.addObserver(this);
         setDataInicial(rellotge.getHora());
         setDataFinal(rellotge.getHora());
-        setDurada((getDataFinal().getTime()-getDataInicial().getTime())/1000);
+        setDurada((getDataFinal().getTime() - getDataInicial().getTime()) / 1000);
     }
 
     public void finalitzaInterval() {
         Rellotge rellotge = Rellotge.getInstance();
         rellotge.deleteObserver(this);
-        setDurada((getDataFinal().getTime() - getDataInicial().getTime())/1000);
+        setDurada((getDataFinal().getTime() - getDataInicial().getTime()) / 1000);
     }
 
-    //Mètode del patró de disseny Observer, que rep la notificació del canvi d'estat del rellotge.
+    //Mètode del patró de disseny Observer, que rep la notificació
+    // del canvi d'estat del rellotge.
     @Override
     public void update(Observable o, Object arg) {
-        Rellotge updateRellotge = (Rellotge)o;
+        Rellotge updateRellotge = (Rellotge) o;
         setDataFinal(updateRellotge.getHora());
-        setDurada((getDataFinal().getTime() - getDataInicial().getTime())/1000);
+        setDurada((getDataFinal().getTime() - getDataInicial().getTime()) / 1000);
         getTascaPare().actualitza();
     }
 
-    public Tasca getTascaPare() { return this.tascaPare;}
-    public void setTascaPare(Tasca tascaPare) {
+    private Tasca getTascaPare() {
+        return this.tascaPare;
+    }
+    private void setTascaPare(Tasca tascaPare) {
         this.tascaPare = tascaPare;
     }
 
     public Date getDataInicial() {
         return dataInicial;
     }
-    public void setDataInicial(Date dataInicial) {
+    private void setDataInicial(Date dataInicial) {
         this.dataInicial = dataInicial;
     }
 
     public double getDurada() {
         return durada;
     }
-    public void setDurada(double durada) {
+    private void setDurada(double durada) {
         this.durada = durada;
     }
 
     public Date getDataFinal() {
         return dataFinal;
     }
-    public void setDataFinal(Date dataFinal) {
+    private void setDataFinal(Date dataFinal) {
         this.dataFinal = dataFinal;
     }
 

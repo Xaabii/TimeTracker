@@ -1,27 +1,18 @@
 package core.ds.projecteds;
 import java.io.*;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 
 public class Fitxer extends Visitor {
     @Override
-    public void visitaTasca(Tasca t) {
+    public void visitaTasca(final Tasca t) {
 
     }
 
     @Override
-    public void visitaProjecte(Projecte p) {
+    public void visitaProjecte(final Projecte p) {
 
     }
 
-    public void exportar(String direccio, Projecte arrel) {
+    public void exportar(final String direccio, final Projecte arrel) {
         try {
             FileOutputStream fitxerSortida = new FileOutputStream(direccio);
             ObjectOutputStream sortida = new ObjectOutputStream(fitxerSortida);
@@ -37,7 +28,7 @@ public class Fitxer extends Visitor {
 
     public Projecte importar(String direccio) {
         Projecte projecte = null;
-        try{
+        try {
             FileInputStream fitxerEntrada = new FileInputStream(direccio);
             ObjectInputStream objecteEntrada = new ObjectInputStream(fitxerEntrada);
             try {
@@ -48,7 +39,7 @@ public class Fitxer extends Visitor {
             }
             objecteEntrada.close();
             fitxerEntrada.close();
-        }catch(IOException i){
+        } catch (IOException i) {
             i.printStackTrace();
         }
         return projecte;
