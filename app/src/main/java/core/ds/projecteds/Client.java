@@ -1,5 +1,8 @@
 package core.ds.projecteds;
 
+
+import java.util.Date;
+
 public class Client extends Thread {
 
     private static double duracioMinimaInterval = 1;
@@ -9,14 +12,18 @@ public class Client extends Thread {
         Rellotge rellotge = Rellotge.getInstance();
         new Tick(duracioInterval, rellotge);
         Projecte projecteTest = new Projecte("arrel", "arrel", null);
+        Date dataInicial = Rellotge.getInstance().getHora();
         TestA1(projecteTest);
 
-        projecteTest = new Projecte("arrel", "arrel", null);
-        TestA2(projecteTest);
+        //projecteTest = new Projecte("arrel", "arrel", null);
+        //TestA2(projecteTest);
 
        /* Fitxer f = new Fitxer();
         Projecte p = f.importar("SERIALIZABLE.ser");
         llegir(p);*/
+
+       Date dataFinal = Rellotge.getInstance().getHora();
+       new InformeBreu(projecteTest, dataInicial, dataFinal, "ascii");
     }
 
     private static void llegir(final Activitat p) {
@@ -41,7 +48,7 @@ public class Client extends Thread {
         Tasca tasca1 = projecte2.crearTasca("tasca1", "dt1");
         Tasca tasca2 = projecte2.crearTasca("tasca2", "dt2");
         Impressor impressor = new Impressor(projecteTest);
-        Fitxer fitxer = new Fitxer();
+        //Fitxer fitxer = new Fitxer();
 
         try {
             tasca3.comencaTasca();
@@ -55,8 +62,8 @@ public class Client extends Thread {
             sleep(dosMil);
             tasca3.acabaTasca();
 
-            projecteTest.acceptaVisitor(impressor);
-            projecteTest.acceptaVisitor(fitxer);
+            //projecteTest.acceptaVisitor(fitxer);
+
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

@@ -4,14 +4,17 @@ import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
 
-private class Interval implements Observer, Serializable {
+/**
+ * Classe Interval: Forma part del patró observer, en cada tick del rellotge
+ * actualitza les dades.
+ */
+class Interval implements Observer, Serializable {
 
     private Date dataInicial;
     private Date dataFinal;
     private Tasca tascaPare;
 
     private double durada;
-    private boolean intervalActivat;
 
     public Interval(Tasca pare) {
         setTascaPare(pare);
@@ -66,10 +69,5 @@ private class Interval implements Observer, Serializable {
         this.dataFinal = dataFinal;
     }
 
-    public boolean isIntervalActivat() {
-        return intervalActivat;
-    }
-    public void setIntervalActivat(boolean intervalActivat) {
-        this.intervalActivat = intervalActivat;
-    }
+
 }

@@ -2,11 +2,14 @@ package core.ds.projecteds;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
-//És una abstracció d'Activitat, tot projecte pot tenir subprojectes
-// i/o tasques que penjen d'ell (seràn els seusfills)
-// Aquesta classe implementa la estructura Visitor.
-//N'accepta per tal d'imprimir i exportar i importar les dades desades.
+/**
+ * És una abstracció d'Activitat, tot projecte pot tenir subprojectes
+ * i/o tasques que penjen d'ell (seràn els seusfills)
+ * Aquesta classe implementa la estructura Visitor.
+ * N'accepta per tal d'imprimir i exportar i importar les dades desades.
+ */
 public class Projecte extends Activitat {
 
     private static final long serialVersionUID = 1L;
@@ -14,7 +17,7 @@ public class Projecte extends Activitat {
 
     public Projecte(final String nom, final String descripcio, final Projecte projectePare) {
         this.setNom(nom);
-        this.setDescripcio(descripcio);
+        //this.setDescripcio(descripcio);
         this.setPare(projectePare);
     }
 
@@ -37,16 +40,15 @@ public class Projecte extends Activitat {
 
 
     public void actualitza(final Projecte projecteActual) {
-        if (projecteActual.getNom().equals("arrel")) {
+        if (!projecteActual.getNom().equals("arrel")) {
             projecteActual.setDurada(0);
             if (!projecteActual.getFills().isEmpty()) {
                 for (Activitat fill : getFills()) {
                     projecteActual.setDurada(fill.getDurada() + projecteActual.getDurada());
                     if (fill.getDataFinal() != null) {
                         if (projecteActual.getDataFinal() != null) {
-                            if (fill.getDataFinal().compareTo(projecteActual.getDataFinal()) > 0) {
+                            if (fill.getDataFinal().compareTo(projecteActual.getDataFinal()) > 0)
                                 projecteActual.setDataFinal(fill.getDataFinal());
-                            }
                         } else {
                             projecteActual.setDataFinal(fill.getDataFinal());
                         }
@@ -64,6 +66,7 @@ public class Projecte extends Activitat {
             this.setDataInicial(tasca.getDataInicial());
         }
         this.setDataFinal(tasca.getDataFinal());
+        this.setDurada((getDataFinal().getTime() - getDataInicial().getTime()) / 1000);
     }
 
     //Permet l'implementació del Visitor per a ell i els seus fills
@@ -82,5 +85,13 @@ public class Projecte extends Activitat {
         for (Activitat f : fills) {
             f.acceptaVisitor(visitor);
         }
+    }
+
+    public void acceptaVisitorDadesBreu(final VisitorDades visitor, final Date dataInicial, final Date dataFinal) {
+        visitor.visitaBreu(this, dataInicial, dataFinal);
+    }
+
+    public void acceptaVisitorDadesDetallat(final VisitorDades visitor, final Date dataInicial, final Date dataFinal) {
+        visitor.visitaDetallat(this, dataInicial, dataFinal);
     }
 }

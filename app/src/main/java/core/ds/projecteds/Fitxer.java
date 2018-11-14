@@ -1,6 +1,10 @@
 package core.ds.projecteds;
 import java.io.*;
 
+/**
+ * Classe Fitxer: Classe que implementa el visitor que permet exportar i importar
+ * el projecte.
+ */
 public class Fitxer extends Visitor {
     @Override
     public void visitaTasca(final Tasca t) {
@@ -26,6 +30,11 @@ public class Fitxer extends Visitor {
         }
     }
 
+    /**
+     *
+     * @param direccio direccio on importar
+     * @return projecte
+     */
     public Projecte importar(String direccio) {
         Projecte projecte = null;
         try {

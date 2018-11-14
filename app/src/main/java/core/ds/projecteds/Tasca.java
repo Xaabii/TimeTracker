@@ -2,8 +2,9 @@ package core.ds.projecteds;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
-/*Classe Tasca: Forma part del patró composite, per tant
+/**Classe Tasca: Forma part del patró composite, per tant
  * agafa tots els atributs i mètodes de la classe abstracte Activitat.
  * Aquesta classe és l'encarregada de crear una tasca, la qual està
  * formada per intervals. La suma d'aquests serà la durada total de la
@@ -17,17 +18,16 @@ public class Tasca extends Activitat {
      * versió més nova es pugui identificar */
     private static final long serialVersionUID = 1L;
 
-
     private final Collection<Interval> intervals = new ArrayList<>();
     private double duradaMinima;
     private Projecte pare;
     private boolean tascaActivada;
     private Interval intervalActual;
 
-    public Tasca(final String nom, final String descripcio, final Projecte pare) {
+    public Tasca(final String nom, final String descripcio, final Projecte paref) {
         this.setNom(nom);
-        this.setDescripcio(descripcio);
-        this.setPare(pare);
+        //this.setDescripcio(descripcio);
+        this.setPare(paref);
         this.setDataInicial(null);
         this.setDataFinal(null);
         this.setDurada(0);
@@ -88,9 +88,17 @@ public class Tasca extends Activitat {
     }
 
     //Permet l'implementació del Visitor per a ell i els seus fills (recorrent tot l'arbre)
-    public void acceptaVisitor(Visitor visitor){
+    public void acceptaVisitor(final Visitor visitor) {
         actualitza();
         visitor.visitaTasca(this);
+    }
+
+    /**
+     *
+     * @param visitor, dataInicial, dataFinal
+     */
+    public void acceptaVisitorDades(final VisitorDades visitor, final Date dataInicial, final Date dataFinal) {
+       // visitor.visitaDetallat(this, dataInicial, dataFinal);
     }
 
     private Collection<Interval> getIntervals() {
@@ -110,10 +118,10 @@ public class Tasca extends Activitat {
         this.tascaActivada = tascaActivada;
     }
 
-    private Projecte getPare() {
+    public Projecte getPare() {
         return pare;
     }
-    private void setPare(Projecte pare) {
+    public void setPare(final Projecte pare) {
         this.pare = pare;
     }
 }

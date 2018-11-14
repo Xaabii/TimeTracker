@@ -5,17 +5,15 @@ package core.ds.projecteds;
  * que es crea, així paralitzem la creació i l'usuari
  * podrà crear diversos threads actius en tasques diferents.
  */
-private class Tick extends Thread {
+class Tick extends Thread {
 
     /**
      * És el temps en què s'anirà actualitzant el rellotge.
-     * @uml.property name="tempsInterval"
      */
     private long tempsInterval;
 
     /**
      * Ens permet accedir al rellotge amb cada thread.
-     * @uml.property name=rellotge"
      */
     private Rellotge rellotge;
 
@@ -24,8 +22,8 @@ private class Tick extends Thread {
      * mantindrà despert en el sistema. Un cop creat estarà
      * constantment escoltant, per notificar.
      * Amb el mètode start, l'encenem.
-     * @param intervalTick
-     * @param rellotgeTick
+     * @param intervalTick interval dels ticks
+     * @param rellotgeTick instancia de rellotge
      */
     public Tick(final long intervalTick, final Rellotge rellotgeTick) {
         setDaemon(true);
@@ -52,8 +50,7 @@ private class Tick extends Thread {
 
     /**
      * Setter de la propietat <tt>interval</tt>.
-     * @param interval
-     * @uml.property name="interval"
+     * @param interval  interval a afegir
      */
     private void setInterval(final long interval) {
         this.tempsInterval = interval;
@@ -62,7 +59,6 @@ private class Tick extends Thread {
     /**
      * Setter de la propietat <tt>rellotge</tt>.
      * @param rellotgeTick The notification to set.
-     * @uml.property name="rellotge"
      */
     private void setRellotge(final Rellotge rellotgeTick) {
         this.rellotge = rellotgeTick;
