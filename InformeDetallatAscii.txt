@@ -1,36 +1,48 @@
------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Informe detallat
------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Període
 Data
-DesdeWed Nov 14 23:28:35 CET 2018
-Fins aWed Nov 14 23:28:58 CET 2018
-Data de generació de l'informeWed Nov 14 23:28:58 CET 2018
------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+DesdeThu Nov 15 23:44:33 CET 2018
+Fins aThu Nov 15 23:44:53 CET 2018
+Data de generació de l'informeThu Nov 15 23:44:55 CET 2018
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Projectes arrel
   Projecte                               Data Inici                               Data final                              Temps total 
 
-Projecte: projecte1 Data inicial: Wed Nov 14 23:28:35 CET 2018 Data final: Wed Nov 14 23:28:58 CET 2018                             Durada: 14.0 
+ projecte1             Thu Nov 15 23:44:33 CET 2018             Thu Nov 15 23:44:53 CET 2018                                     14.0 
 
 Subprojectes
 S'inclouen en la següent taula només els subprojectes que tinguin alguna tasca amb algun interval dins del període.
 
 
-Nom ProjectePare                              Subprojecte                               Data Inici                               Data final                              Temps total 
+Nom ProjectePare                    Subprojecte                     Data Inici                     Data final                    Temps total 
 
------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                                projecte1                      projecte2   Thu Nov 15 23:44:41 CET 2018   Thu Nov 15 23:44:51 CET 2018 
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Tasques
 S'inclouen en la següent taula la durada de totes les tasques i el projecte al qual pertanyen.
 
 
-Nom ProjectePare                                    Tasca                               Data Inici                               Data final                              Temps total 
+Nom ProjectePare                          Tasca                     Data Inici                     Data final                    Temps total 
 
------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                                projecte1                         tasca3   Thu Nov 15 23:44:33 CET 2018   Thu Nov 15 23:44:53 CET 2018 
+
+                                projecte2                         tasca2   Thu Nov 15 23:44:41 CET 2018   Thu Nov 15 23:44:51 CET 2018 
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Intervals
 S'inclouen en la següent taula el temps d'inici, final i la durada de tots els intervals entre la data inicial i final especificades, i la tasca i projecte al qual pertanyen.
 
 
-        Nº                                    Tasca                               Data Inici                               Data final                              Temps total 
+        Nº                          Tasca                     Data Inici                     Data final                    Temps total 
 
------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+         0                                                     projecte1                         tasca3                              1 
+
+         1                                                     projecte1                         tasca3                              2 
+
+         2                                                     projecte2                         tasca2                              1 
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Time Tracker v1.0

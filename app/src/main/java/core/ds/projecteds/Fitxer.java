@@ -23,10 +23,8 @@ public class Fitxer extends Visitor {
             sortida.writeObject(arrel);
             sortida.close();
             fitxerSortida.close();
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             e.printStackTrace();
-        } catch (IOException i) {
-            i.printStackTrace();
         }
     }
 
@@ -43,7 +41,6 @@ public class Fitxer extends Visitor {
             try {
                 projecte = (Projecte) objecteEntrada.readObject();
             } catch (ClassNotFoundException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
             objecteEntrada.close();

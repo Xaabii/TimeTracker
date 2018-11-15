@@ -9,13 +9,12 @@ import java.util.Date;
 public class Ascii extends Format {
     private OrdenaDades ordenaDades;
 
-    public Ascii(final Date dataInici, final Date dataFinal) {
+    public Ascii() {
         setOrdenaDades(OrdenaDades.getInstance());
     }
 
-    public void asciiBreu(final Date dataInicial, final Date dataFinal) {
-        final int tres = 3;
-        File fitxer = new File("C:/Users/Anna/Documents/Cole/5e carrera/Disseny del software/Practiques/InformeBreuAscii.txt");
+    public void asciiBreu(final Date dataInicial, final Date dataFinal, final String direccio) {
+        File fitxer = new File(direccio);
         PrintWriter printerWriter;
         try {
             printerWriter = new PrintWriter(fitxer);
@@ -23,21 +22,21 @@ public class Ascii extends Format {
                     + "----------------------------------"
                     + "---------------------------------------"
                     + "-------------------------------------------"
-                    + "---------------------------");
+                    + "---------------");
             printerWriter.println("Informe Breu");
             printerWriter.println("-----------------------------------------"
-                    + "-----------------------------------------------------------"
+                    + "----------------------------------------------------------"
                     + "---------------------------------------------------------"
-                    + "-----------------------");
+                    + "-----------");
             printerWriter.println("Període");
             printerWriter.println("Data");
-            printerWriter.println("Des de " + dataInicial);
-            printerWriter.println("Fins a " + dataFinal);
+            printerWriter.println("Des de    " + dataInicial);
+            printerWriter.println("Fins a    " + dataFinal);
             printerWriter.println("Data de generació de l'informe " + new Date().toString());
             printerWriter.println("-----------------------------------------"
-                    + "-----------------------------------------------------------"
+                    + "----------------------------------------------------------"
                     + "---------------------------------------------------------"
-                    + "-----------------------");
+                    + "-----------");
             printerWriter.println("Projectes arrel");
             printerWriter.println(String.format("%10s %40s %40s %40s \r\n",
                     "Projecte", "Data Inici", "Data final", "Temps total"));
@@ -53,7 +52,7 @@ public class Ascii extends Format {
                 printerWriter.println("-----------------------------------------"
                         + "-------------------------------------------"
                         + "--------------------------------------------------"
-                        + "---------------------------------------------");
+                        + "---------------------------------");
                 printerWriter.println("Time Tracker v1.0");
             }
             printerWriter.close();
@@ -63,8 +62,8 @@ public class Ascii extends Format {
     }
 
 
-    public void asciiDetallat(final Date dataInicial, final Date dataFinal) {
-        File fitxer = new File("C:/Users/Anna/Documents/Cole/5e carrera/Disseny del software/Practiques/InformeDetallatAscii.txt");
+    public void asciiDetallat(final Date dataInicial, final Date dataFinal, final String direccio) {
+        File fitxer = new File(direccio);
         PrintWriter printWriter;
         try {
             printWriter = new PrintWriter(fitxer);
@@ -72,12 +71,12 @@ public class Ascii extends Format {
             printWriter.println("-----------------------------------------"
                     + "-------------------------------------------"
                     + "--------------------------------------------------"
-                    +	"---------------------------------------------");
+                    +	"---------------------------------");
             printWriter.println("Informe detallat");
             printWriter.println("-----------------------------------------"
                     + "-------------------------------------------"
                     + "--------------------------------------------------"
-                    +	"---------------------------------------------");
+                    +	"---------------------------------");
             printWriter.println("Període");
             printWriter.println("Data");
             printWriter.println("Desde" + dataInicial);
@@ -87,7 +86,7 @@ public class Ascii extends Format {
             printWriter.println("-----------------------------------------"
                     + "-------------------------------------------"
                     + "--------------------------------------------------"
-                    +	"---------------------------------------------");
+                    +	"---------------------------------");
             printWriter.println("Projectes arrel");
             printWriter.println(String.format("%10s %40s %40s %40s \r\n",
                     "Projecte", "Data Inici", "Data final", "Temps total"));
@@ -107,7 +106,7 @@ public class Ascii extends Format {
                     + "subprojectes que tinguin alguna tasca amb algun interval"
                     + " dins del període.");
             printWriter.println("\n");
-            printWriter.println(String.format("%10s %40s %40s %40s %40s \r\n",
+            printWriter.println(String.format("%10s %30s %30s %30s %30s \r\n",
                     "Nom ProjectePare", "Subprojecte", "Data Inici",
                     "Data final", "Temps total"));
             ArrayList llistaSubprojectes =
@@ -121,19 +120,19 @@ public class Ascii extends Format {
                 String fin = (String) nodaSubProj.get(2);
                 String total = (String) nodaSubProj.get(3);
                 printWriter.println(String.format(
-                        "%10s %40s %40s %40s %40s \r\n",
+                        "%10s %30s %30s %30s %30s \r\n",
                         pare, nom, inici, fin, total));
             }
             printWriter.println("-----------------------------------------"
                     + "-------------------------------------------"
                     + "--------------------------------------------------"
-                    +	"---------------------------------------------");
+                    +	"---------------------------------");
             printWriter.println("Tasques");
             printWriter.println("S'inclouen en la següent taula"
                     + " la durada de totes les tasques i"
                     +	" el projecte al qual pertanyen.");
             printWriter.println("\n");
-            printWriter.println(String.format("%10s %40s %40s %40s %40s \r\n",
+            printWriter.println(String.format("%10s %30s %30s %30s %30s \r\n",
                     "Nom ProjectePare", "Tasca", "Data Inici",
                     "Data final", "Temps total"));
             ArrayList llistaTasca =
@@ -145,13 +144,13 @@ public class Ascii extends Format {
                 String inici = (String) nodatasca.get(1);
                 String fin = (String) nodatasca.get(2);
                 String total = (String) nodatasca.get(3);
-                printWriter.println(String.format("%10s %40s %40s %40s "
-                    + "%40s \r\n", pare, nom, inici, fin, total));
+                printWriter.println(String.format("%10s %30s %30s %30s %30s "
+                    + "\r\n", pare, nom, inici, fin, total));
             }
             printWriter.println("-----------------------------------------"
                     + "-------------------------------------------"
                     + "--------------------------------------------------"
-                    +	"---------------------------------------------");
+                    +	"---------------------------------");
             printWriter.println("Intervals");
             printWriter.println("S'inclouen en la següent "
                     + "taula el temps d'inici, "
@@ -159,7 +158,7 @@ public class Ascii extends Format {
                     + "intervals entre la data inicial i final"
                     + " especificades, i la tasca i projecte al qual pertanyen.");
             printWriter.println("\n");
-            printWriter.println(String.format("%10s %40s %40s %40s %40s \r\n",
+            printWriter.println(String.format("%10s %30s %30s %30s %30s \r\n",
                     "Nº", "Tasca", "Data Inici", "Data final", "Temps total"));
             ArrayList llistaInter = getOrdenaDades().getLlistaIntervals();
             for (int i = 0; i < llistaInter.size(); i++) {
@@ -170,13 +169,13 @@ public class Ascii extends Format {
                 String fin = (String) nodainter.get(1);
                 String total = (String) nodainter.get(2);
                 printWriter.println(String.format(
-                        "%10s %40s %40s %40s %40s \r\n",
+                        "%10s %30s %30s %30s %30s \r\n",
                         num, pare, inici, fin, total));
             }
             printWriter.println("-----------------------------------------"
                     + "-------------------------------------------"
                     + "--------------------------------------------------"
-                    +	"---------------------------------------------");
+                    +	"---------------------------------");
             printWriter.println("Time Tracker v1.0");
             printWriter.close();
 

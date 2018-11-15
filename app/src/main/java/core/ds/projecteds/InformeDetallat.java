@@ -11,15 +11,22 @@ class InformeDetallat extends Informe {
     public InformeDetallat(final Projecte arrel, final Date dataInicialInforme, final Date dataFinalInforme, final String format) {
         super(arrel, dataInicialInforme, dataFinalInforme);
         getDadesIntervalInforme().generaDetallat();
-        if (format == "ascii") {
-            Ascii arxiuAscii = new Ascii(dataInicialInforme, dataFinalInforme);
-            arxiuAscii.asciiDetallat(dataInicialInforme, dataFinalInforme);
-        } else if (format == "html") {
-            System.out.println("Informe html");
-            //Html arxiuHtml = new Html(dataInicialInforme, dataFinalInforme);
-            //arxiuHtml.htmlBreu(dataFinalInforme, dataFinalInforme);
-        } else {
-            System.out.println("Format erroni");
+        String direccio;
+        switch (format) {
+            case "ascii":
+                direccio = "C:/Users/Anna/Documents/Cole/5e carrera/Disseny del software/Practiques/InformeDetallatAscii.txt";
+                Ascii arxiuAscii = new Ascii();
+                arxiuAscii.asciiDetallat(dataInicialInforme, dataFinalInforme, direccio);
+                break;
+            case "html":
+                direccio = "C:/Users/Anna/Documents/Cole/5e carrera/Disseny del software/Practiques/InformeDetallatHtml.html";
+                Html arxiuHtml = new Html();
+                arxiuHtml.htmlDetallat(dataInicialInforme, dataFinalInforme);
+                arxiuHtml.guardarProjecte(direccio);
+                break;
+            default:
+                System.out.println("Format erroni");
+
         }
     }
 }

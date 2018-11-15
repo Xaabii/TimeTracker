@@ -41,6 +41,10 @@ class Interval implements Observer, Serializable {
         getTascaPare().actualitza();
     }
 
+    public void acceptVisitorDades(final VisitorDades visitor, final Date dataInicial, final Date dataFinal, final Tasca pare, final int id) {
+        visitor.visitaDetallatInterval(this, dataInicial, dataFinal, pare, id);
+    }
+
     private Tasca getTascaPare() {
         return this.tascaPare;
     }

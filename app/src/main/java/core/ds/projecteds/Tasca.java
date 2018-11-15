@@ -13,46 +13,62 @@ import java.util.Date;
  * exportar/importar les dades desades.
  */
 public class Tasca extends Activitat {
-
-    /*Guarda un número de la versió, perquè si es fa una
-     * versió més nova es pugui identificar */
-    private static final long serialVersionUID = 1L;
-
     private final Collection<Interval> intervals = new ArrayList<>();
     private double duradaMinima;
     private Projecte pare;
     private boolean tascaActivada;
     private Interval intervalActual;
+    private boolean tascaIniciada;
 
-    public Tasca(final String nom, final String descripcio, final Projecte paref) {
+    public Tasca(final String nom, final String descripcio, final Projecte paref, final double duradaMinima) {
+        //Precondicions
+        assert(!nom.equals(null));
+        assert(!descripcio.equals(null));
+        assert(!paref.equals(null));
+        assert(duradaMinima >= 0);
+
         this.setNom(nom);
-        //this.setDescripcio(descripcio);
+        this.setDescripcio(descripcio);
         this.setPare(paref);
         this.setDataInicial(null);
         this.setDataFinal(null);
         this.setDurada(0);
-        this.setDuradaMinima(1);
+        this.setDuradaMinima(duradaMinima);
         this.setTascaActivada(false);
+        this.setTascaIniciada(false);
+        comprovaInvariant();
     }
 
     public void comencaTasca() {
+        //Precondicions
+        assert(!isTascaActivada());
         if (!isTascaActivada()) {
             Interval nouInterval = new Interval(this);
             setIntervalActual(nouInterval);
             setTascaActivada(true);
+            setTascaIniciada(true);
             if (this.getDataInicial() == null) setDataInicial(nouInterval.getDataInicial());
             this.setDataFinal(nouInterval.getDataFinal());
             this.getPare().iniciTasca(this);
             intervals.add(nouInterval);
         }
+        //Postcondicions
+        assert(isTascaActivada());
+        assert(isTascaIniciada());
+        assert(!getIntervals().isEmpty());
     }
 
     public void acabaTasca() {
+        //Precondicions
+        assert(isTascaIniciada());
+        assert(isTascaActivada());
         if (isTascaActivada()) {
             setTascaActivada(false);
             getIntervalActual().finalitzaInterval();
             comprovarDurada(getIntervalActual());
         }
+        //Postcondicions
+        assert(!isTascaActivada());
     }
 
     //Es comprova si la durada minima del interval es compleix, si no, es descarta.
@@ -93,15 +109,29 @@ public class Tasca extends Activitat {
         visitor.visitaTasca(this);
     }
 
-    /**
-     *
-     * @param visitor, dataInicial, dataFinal
-     */
+
     public void acceptaVisitorDades(final VisitorDades visitor, final Date dataInicial, final Date dataFinal) {
-       // visitor.visitaDetallat(this, dataInicial, dataFinal);
+        visitor.visitaDetallatTasca(this, dataInicial, dataFinal);
     }
 
-    private Collection<Interval> getIntervals() {
+    public void comprovaInvariant() {
+        assert(!getNom().equals(null));
+        assert(!getPare().equals(null));
+        assert(!getDescripcio().equals(null));
+        assert(!isTascaActivada() || isTascaActivada());
+        if(!getIntervals().isEmpty()) {
+            assert(getDataInicial().compareTo(getDataFinal()) <= getDuradaMinima());
+            assert(getDurada() >= getDuradaMinima());
+            assert(isTascaIniciada());
+        } else {
+            assert(getDataInicial().equals(null));
+            assert(getDataFinal().equals(null));
+            assert(getDurada() == 0);
+            assert(!isTascaIniciada());
+        }
+    }
+
+    public Collection<Interval> getIntervals() {
         return intervals;
     }
 
@@ -123,5 +153,13 @@ public class Tasca extends Activitat {
     }
     public void setPare(final Projecte pare) {
         this.pare = pare;
+    }
+
+    public boolean isTascaIniciada() {
+        return tascaIniciada;
+    }
+
+    public void setTascaIniciada(boolean tascaIniciada) {
+        this.tascaIniciada = tascaIniciada;
     }
 }

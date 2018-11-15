@@ -5,18 +5,21 @@ import java.util.Collection;
 import java.util.Date;
 
 /**
- * Classe Activitat: Classe abstracta de la qual n'herenten projecte i tasca.
+ * Classe Activitat: Forma part del patró de disseny composite.
+ * És l'encarregada de definir tots els atributs que compartiran
+ * projecte i tasca.
  */
 public abstract class Activitat implements Serializable {
 
-    /*Guarda un número de la versió,
-    perquè si es fa una versió més nova es pugui identificar*/
+    /**
+     * Guarda un número de la versió,perquè si es fa una versió més nova es pugui identificar.
+     */
     private static final long serialVersionUID = 1L;
     /**
      *
      */
     private String nom;
-    //private String descripcio;
+    private String descripcio;
     private double durada;
     private Date dataInicial;
     private Date dataFinal;
@@ -66,10 +69,6 @@ public abstract class Activitat implements Serializable {
         this.pare = pareActivitat;
     }
 
-    /**
-     * Setter de la propietat <tt>descripcio</tt>.
-     * @param descripcioActivitat decripcio de l'activitat
-     */
     /*public void setDescripcio(final String descripcioActivitat) {
         this.descripcio = descripcioActivitat;
     }*/
@@ -122,5 +121,11 @@ public abstract class Activitat implements Serializable {
         this.dataFinal = dataFinalActivitat;
     }
 
+    public String getDescripcio() {
+        return descripcio;
+    }
 
+    public void setDescripcio(String descripcio) {
+        this.descripcio = descripcio;
+    }
 }

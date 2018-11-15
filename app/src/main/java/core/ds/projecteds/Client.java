@@ -1,19 +1,20 @@
 package core.ds.projecteds;
 
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Client extends Thread {
 
-    private static double duracioMinimaInterval = 1;
+    private static final double duracioMinimaInterval = 1;
 
     public static void main(final String[] args) {
         final long duracioInterval = 2000;
         Rellotge rellotge = Rellotge.getInstance();
         new Tick(duracioInterval, rellotge);
         Projecte projecteTest = new Projecte("arrel", "arrel", null);
-        Date dataInicial = Rellotge.getInstance().getHora();
-        TestA1(projecteTest);
+        //TestA1(projecteTest);
 
         //projecteTest = new Projecte("arrel", "arrel", null);
         //TestA2(projecteTest);
@@ -21,10 +22,11 @@ public class Client extends Thread {
        /* Fitxer f = new Fitxer();
         Projecte p = f.importar("SERIALIZABLE.ser");
         llegir(p);*/
-
-       Date dataFinal = Rellotge.getInstance().getHora();
-       //new InformeBreu(projecteTest, dataInicial, dataFinal, "ascii");
-       new InformeDetallat(projecteTest, dataInicial, dataFinal, "ascii");
+       ArrayList<Date> dates = TestFita2(projecteTest);
+       Date dataInicial = dates.get(0);
+       Date dataFinal = dates.get(1);
+       new InformeBreu(projecteTest, dataInicial, dataFinal, "html");
+       //new InformeDetallat(projecteTest, dataInicial, dataFinal, "html");
     }
 
     private static void llegir(final Activitat p) {
@@ -44,10 +46,10 @@ public class Client extends Thread {
         final int deuMil = 10000;
         final int dosMil = 2000;
         Projecte projecte1 = projecteTest.crearProjecte("projecte1", "dproj1");
-        Tasca tasca3 = projecte1.crearTasca("tasca3", "dt3");
+        Tasca tasca3 = projecte1.crearTasca("tasca3", "dt3", duracioMinimaInterval);
         Projecte projecte2 = projecte1.crearProjecte("projecte2", "dproj2");
-        Tasca tasca1 = projecte2.crearTasca("tasca1", "dt1");
-        Tasca tasca2 = projecte2.crearTasca("tasca2", "dt2");
+        Tasca tasca1 = projecte2.crearTasca("tasca1", "dt1", duracioMinimaInterval);
+        Tasca tasca2 = projecte2.crearTasca("tasca2", "dt2", duracioMinimaInterval);
         Impressor impressor = new Impressor(projecteTest);
         //Fitxer fitxer = new Fitxer();
 
@@ -77,10 +79,10 @@ public class Client extends Thread {
 
 
         Projecte projecte1 = projecteTest.crearProjecte("projecte1", "dproj1");
-        Tasca tasca3 = projecte1.crearTasca("tasca3", "dt3");
+        Tasca tasca3 = projecte1.crearTasca("tasca3", "dt3", duracioMinimaInterval);
         Projecte projecte2 = projecte1.crearProjecte("projecte2", "dproj2");
-        Tasca tasca1 = projecte2.crearTasca("tasca1", "dt1");
-        Tasca tasca2 = projecte2.crearTasca("tasca2", "dt2");
+        Tasca tasca1 = projecte2.crearTasca("tasca1", "dt1", duracioMinimaInterval);
+        Tasca tasca2 = projecte2.crearTasca("tasca2", "dt2", duracioMinimaInterval);
         Impressor impressor = new Impressor(projecteTest);
         Fitxer fitxer = new Fitxer();
 
@@ -106,5 +108,57 @@ public class Client extends Thread {
         projecteTest.acceptaVisitor(impressor);
         projecteTest.acceptaVisitor(fitxer);
         fitxer.exportar("SERIALIZABLE.ser", projecteTest);
+    }
+
+    private static ArrayList<Date> TestFita2(final Projecte projecteTest) {
+        System.out.println("\n\n--------- TEST FITA 2 ---------");
+        final int quatreMil = 4000;
+        final int dosMil = 2000;
+        final int sisMil = 6000;
+
+        ArrayList<Date> dates = new ArrayList<>();
+        Date dataInicial;
+        Date dataFinal;
+        Projecte projecte1 = projecteTest.crearProjecte("projecte1", "dproj1");
+        Projecte projecte2 = projecteTest.crearProjecte("projecte2", "dproj2");
+        Projecte projecte1_2 = projecte1.crearProjecte("projecte1_2", "dproj1_2");
+        Tasca tasca1 = projecte1.crearTasca("tasca1", "dt1", duracioMinimaInterval);
+        Tasca tasca2 = projecte1.crearTasca("tasca2", "dt2", duracioMinimaInterval);
+        Tasca tasca4 = projecte1_2.crearTasca("tasca4", "dt4", duracioMinimaInterval);
+        Tasca tasca3 = projecte2.crearTasca("tasca3", "dt3", duracioMinimaInterval);
+
+
+        Impressor impressor = new Impressor(projecteTest);
+        Fitxer fitxer = new Fitxer();
+
+        try {
+            tasca1.comencaTasca();
+            tasca4.comencaTasca();
+            sleep(quatreMil);
+            dataInicial = new Date();
+            tasca1.acabaTasca();
+            tasca2.comencaTasca();
+            sleep(sisMil);
+            tasca2.acabaTasca();
+            tasca4.acabaTasca();
+            tasca3.comencaTasca();
+            sleep(quatreMil);
+            dataFinal = new Date();
+            tasca3.acabaTasca();
+            tasca2.comencaTasca();
+            sleep(dosMil);
+            tasca3.comencaTasca();
+            sleep(quatreMil);
+            tasca2.acabaTasca();
+            tasca3.acabaTasca();
+            dates.add(dataInicial);
+            dates.add(dataFinal);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        //projecteTest.acceptaVisitor(fitxer);
+        //fitxer.exportar("SERIALIZABLE.ser", projecteTest);
+        return dates;
     }
 }

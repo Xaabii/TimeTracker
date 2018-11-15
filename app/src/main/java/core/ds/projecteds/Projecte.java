@@ -12,12 +12,11 @@ import java.util.Date;
  */
 public class Projecte extends Activitat {
 
-    private static final long serialVersionUID = 1L;
     private final Collection<Activitat> fills = new ArrayList<>();
 
     public Projecte(final String nom, final String descripcio, final Projecte projectePare) {
         this.setNom(nom);
-        //this.setDescripcio(descripcio);
+        this.setDescripcio(descripcio);
         this.setPare(projectePare);
     }
 
@@ -32,8 +31,8 @@ public class Projecte extends Activitat {
         return nouProjecte;
     }
 
-    public Tasca crearTasca(final String nomTasca, final String descripcio) {
-        Tasca novaTasca = new Tasca(nomTasca, descripcio, this);
+    public Tasca crearTasca(final String nomTasca, final String descripcio, final double duracioMinimaInterval) {
+        Tasca novaTasca = new Tasca(nomTasca, descripcio, this, duracioMinimaInterval);
         this.fills.add(novaTasca);
         return novaTasca;
     }

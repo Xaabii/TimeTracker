@@ -1,17 +1,16 @@
 package core.ds.projecteds;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 /**
  * Classe OrdenaDades: Classe que té l'estructura de dades de l'informe.
  */
 public class OrdenaDades {
     private static OrdenaDades dadesOrdenades = null;
-    private ArrayList llistaProjectesArrel;
-    private ArrayList llistaSubProjectes;
-    private ArrayList llistaTasques;
-    private ArrayList llistaIntervals;
+    private final ArrayList<ArrayList<String>> llistaProjectesArrel = new ArrayList<>();
+    private final ArrayList<ArrayList<String>> llistaSubProjectes = new ArrayList<>();
+    private final ArrayList<ArrayList<String>> llistaTasques = new ArrayList<>();
+    private final ArrayList<ArrayList<String>> llistaIntervals = new ArrayList<>();
 
     public static OrdenaDades getInstance() {
         if (dadesOrdenades == null) {
@@ -21,10 +20,7 @@ public class OrdenaDades {
     }
 
     public OrdenaDades() {
-        setLlistaIntervals(new ArrayList());
-        setLlistaProjectesArrel(new ArrayList());
-        setLlistaTasques(new ArrayList());
-        setLlistaSubProjectes(new ArrayList());
+
     }
 
     public void netejaDades() {
@@ -36,43 +32,21 @@ public class OrdenaDades {
         }
     }
 
-    public static OrdenaDades getDadesOrdenades() {
-        return dadesOrdenades;
-    }
 
-    public static void setDadesOrdenades(final OrdenaDades dadesOrd) {
-        OrdenaDades.dadesOrdenades = dadesOrd;
-    }
-
-    public ArrayList getLlistaProjectesArrel() {
+    public ArrayList<ArrayList<String>> getLlistaProjectesArrel() {
         return llistaProjectesArrel;
     }
 
-    public void setLlistaProjectesArrel(final ArrayList projectesArrel) {
-        this.llistaProjectesArrel = projectesArrel;
-    }
-
-    public ArrayList getLlistaSubProjectes() {
+    public ArrayList<ArrayList<String>> getLlistaSubProjectes() {
         return llistaSubProjectes;
     }
 
-    public void setLlistaSubProjectes(ArrayList llistaSubProjectes) {
-        this.llistaSubProjectes = llistaSubProjectes;
-    }
-
-    public ArrayList getLlistaTasques() {
+    public ArrayList<ArrayList<String>> getLlistaTasques() {
         return llistaTasques;
     }
 
-    public void setLlistaTasques(ArrayList llistaTasques) {
-        this.llistaTasques = llistaTasques;
-    }
-
-    public ArrayList getLlistaIntervals() {
+    public ArrayList<ArrayList<String>> getLlistaIntervals() {
         return llistaIntervals;
     }
 
-    public void setLlistaIntervals(ArrayList llistaIntervals) {
-        this.llistaIntervals = llistaIntervals;
-    }
 }
