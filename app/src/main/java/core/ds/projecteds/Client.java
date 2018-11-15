@@ -23,7 +23,8 @@ public class Client extends Thread {
         llegir(p);*/
 
        Date dataFinal = Rellotge.getInstance().getHora();
-       new InformeBreu(projecteTest, dataInicial, dataFinal, "ascii");
+       //new InformeBreu(projecteTest, dataInicial, dataFinal, "ascii");
+       new InformeDetallat(projecteTest, dataInicial, dataFinal, "ascii");
     }
 
     private static void llegir(final Activitat p) {
