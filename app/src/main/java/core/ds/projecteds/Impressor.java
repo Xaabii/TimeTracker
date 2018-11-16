@@ -4,9 +4,9 @@ import java.util.Observable;
 import java.util.Observer;
 
 /**
- * Classe Impressor: Classe que implementa el visitor i l'observer,
+ * Classe Impressor: Classe que implementa els patrons visitor i observer,
  * per cada interval de temps actualitza les dades dels projectes i tasques,
- * i els imprimeix.
+ * i els imprimeix per consola.
  */
 public class Impressor extends Visitor implements Observer {
     private Projecte nodeSeleccionat;

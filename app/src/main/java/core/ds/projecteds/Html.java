@@ -7,16 +7,21 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
+/*
+ * Classe Html: Classe on s'implementaran tots els atributs i mètodes
+ * necessaris, per tal que es creiï adequadament l'informe en format html.
+ */
 public class Html extends Format {
     public OrdenaDades ordenaDades;
-    final paginaweb.PaginaWeb paginaWeb;
+    public paginaweb.PaginaWeb paginaWeb = new paginaweb.PaginaWeb(); ;
     public Html() {
         setOrdenaDades(OrdenaDades.getInstance());
-        paginaWeb = new paginaweb.PaginaWeb();
+
     }
 
-    public void htmlBreu(final Date dataInicial, final Date dataFinal) {
-
+    public void breu(final Date dataInicialInforme, final Date dataFinalInforme) {
+        String direccio = "C:/Users/Anna/Documents/Cole/5e carrera/Disseny del software/Practiques/InformeBreuHtml.html";
+        paginaWeb = new paginaweb.PaginaWeb();
         paginaWeb.afegeixLiniaSeparacio();
         paginaWeb.afegeixHeader("Informe Breu", 1, true);
         paginaWeb.afegeixLiniaSeparacio();
@@ -29,10 +34,10 @@ public class Html extends Format {
         fila1Taula1.add("Data");
         ArrayList<String> fila2Taula1 = new ArrayList<>();
         fila2Taula1.add("Des de");
-        fila2Taula1.add(dataInicial.toString());
+        fila2Taula1.add(dataInicialInforme.toString());
         ArrayList<String> fila3Taula1 = new ArrayList<>();
         fila3Taula1.add("Fins a");
-        fila3Taula1.add(dataFinal.toString());
+        fila3Taula1.add(dataFinalInforme.toString());
         ArrayList<String> fila4Taula1 = new ArrayList<>();
         fila4Taula1.add("Data de generació de l'informe");
         fila4Taula1.add(new Date().toString());
@@ -65,9 +70,13 @@ public class Html extends Format {
         }
         paginaWeb.afegeixTaula(taula2, true, false);
         paginaWeb.afegeixLiniaSeparacio();
+        paginaWeb.afegeixTextNormal("Time Tracker v1.0");
+        guardarProjecte(direccio);
     }
 
-    public void htmlDetallat(final Date dataInicial, final Date dataFinal) {
+    public void detallat(final Date dataInicialInforme, final Date dataFinalInforme) {
+        String direccio = "C:/Users/Anna/Documents/Cole/5e carrera/Disseny del software/Practiques/InformeDetallatHtml.html";
+        paginaWeb = new paginaweb.PaginaWeb();
         paginaWeb.afegeixLiniaSeparacio();
         paginaWeb.afegeixHeader("Informe Detallat", 1, true);
         paginaWeb.afegeixLiniaSeparacio();
@@ -80,10 +89,10 @@ public class Html extends Format {
         fila1Taula1.add("Data");
         ArrayList<String> fila2Taula1 = new ArrayList<>();
         fila2Taula1.add("Des de");
-        fila2Taula1.add(dataInicial.toString());
+        fila2Taula1.add(dataInicialInforme.toString());
         ArrayList<String> fila3Taula1 = new ArrayList<>();
         fila3Taula1.add("Fins a");
-        fila3Taula1.add(dataFinal.toString());
+        fila3Taula1.add(dataFinalInforme.toString());
         ArrayList<String> fila4Taula1 = new ArrayList<>();
         fila4Taula1.add("Data de generació de l'informe");
         fila4Taula1.add(new Date().toString());
@@ -194,6 +203,7 @@ public class Html extends Format {
         }
         paginaWeb.afegeixTaula(taula5, true, false);
         paginaWeb.afegeixLiniaSeparacio();
+        guardarProjecte(direccio);
     }
 
     public final void guardarProjecte(final String direccio) {

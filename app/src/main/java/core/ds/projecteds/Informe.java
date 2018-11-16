@@ -3,7 +3,7 @@ package core.ds.projecteds;
 import java.util.Date;
 
 /**
- * Classe Informe: Classe abstracta de la qual n'hereten InformeBreu i InformeDetallar.
+ * Classe Informe: Classe abstracta de la qual n'hereten InformeBreu i InformeDetallat.
  */
 public abstract class Informe {
     private Projecte arbre;

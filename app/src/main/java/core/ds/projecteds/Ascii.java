@@ -6,6 +6,10 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
 
+/*
+ * Classe Ascii: És la classe on s'implementaran els atributs i mètodes necessaris,
+ * per tal que es creiï adequadament l'informe en format ascii.
+ */
 public class Ascii extends Format {
     private OrdenaDades ordenaDades;
 
@@ -13,7 +17,8 @@ public class Ascii extends Format {
         setOrdenaDades(OrdenaDades.getInstance());
     }
 
-    public void asciiBreu(final Date dataInicial, final Date dataFinal, final String direccio) {
+    public void breu(final Date dataInicialInforme, final Date dataFinalInforme) {
+        String direccio = "C:/Users/Anna/Documents/Cole/5e carrera/Disseny del software/Practiques/InformeBreuAscii.txt";
         File fitxer = new File(direccio);
         PrintWriter printerWriter;
         try {
@@ -30,8 +35,8 @@ public class Ascii extends Format {
                     + "-----------");
             printerWriter.println("Període");
             printerWriter.println("Data");
-            printerWriter.println("Des de    " + dataInicial);
-            printerWriter.println("Fins a    " + dataFinal);
+            printerWriter.println("Des de    " + dataInicialInforme);
+            printerWriter.println("Fins a    " + dataFinalInforme);
             printerWriter.println("Data de generació de l'informe " + new Date().toString());
             printerWriter.println("-----------------------------------------"
                     + "----------------------------------------------------------"
@@ -39,30 +44,30 @@ public class Ascii extends Format {
                     + "-----------");
             printerWriter.println("Projectes arrel");
             printerWriter.println(String.format("%10s %40s %40s %40s \r\n",
-                    "Projecte", "Data Inici", "Data final", "Temps total"));
+                    "Projecte", "Data d'inici", "Data final", "Temps total"));
             ArrayList llistaProjectesArrel = getOrdenaDades().getLlistaProjectesArrel();
             for (int i = 0; i < llistaProjectesArrel.size(); i++) {
-               ArrayList node = (ArrayList) llistaProjectesArrel.get(i);
-               String nom = (String) node.get(0);
-               String dataInici = (String) node.get(1);
-               String dataFi = (String) node.get(2);
-               String total = (String) node.get(3);
-               printerWriter.println(String.format("%10s %40s %40s %40s \r\n",
-                       nom, dataInici, dataFi, total));
-                printerWriter.println("-----------------------------------------"
-                        + "-------------------------------------------"
-                        + "--------------------------------------------------"
-                        + "---------------------------------");
-                printerWriter.println("Time Tracker v1.0");
+                ArrayList node = (ArrayList) llistaProjectesArrel.get(i);
+                String nom = (String) node.get(0);
+                String dataInici = (String) node.get(1);
+                String dataFi = (String) node.get(2);
+                String total = (String) node.get(3);
+                printerWriter.println(String.format("%10s %40s %40s %40s \r\n",
+                        nom, dataInici, dataFi, total));
             }
+            printerWriter.println("-----------------------------------------"
+                    + "-------------------------------------------"
+                    + "--------------------------------------------------"
+                    + "---------------------------------");
+            printerWriter.println("Time Tracker v1.0");
             printerWriter.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
     }
 
-
-    public void asciiDetallat(final Date dataInicial, final Date dataFinal, final String direccio) {
+    public void detallat(final Date dataInicialInforme, final Date dataFinalInforme) {
+        String direccio = "C:/Users/Anna/Documents/Cole/5e carrera/Disseny del software/Practiques/InformeDetallatAscii.txt";
         File fitxer = new File(direccio);
         PrintWriter printWriter;
         try {
@@ -79,48 +84,49 @@ public class Ascii extends Format {
                     +	"---------------------------------");
             printWriter.println("Període");
             printWriter.println("Data");
-            printWriter.println("Desde" + dataInicial);
-            printWriter.println("Fins a" + dataFinal);
+            printWriter.println("Desde     " + dataInicialInforme);
+            printWriter.println("Fins a    " + dataFinalInforme);
             printWriter.println(
-                    "Data de generació de l'informe" + new Date().toString());
+                    "Data de generació de l'informe  " + new Date().toString());
             printWriter.println("-----------------------------------------"
                     + "-------------------------------------------"
                     + "--------------------------------------------------"
                     +	"---------------------------------");
-            printWriter.println("Projectes arrel");
+            printWriter.println("Projectes arrel \n");
             printWriter.println(String.format("%10s %40s %40s %40s \r\n",
-                    "Projecte", "Data Inici", "Data final", "Temps total"));
-            ArrayList llistaProjectesArrel =
-                    getOrdenaDades().getLlistaProjectesArrel();
+                    "Projecte", "Data d'inici", "Data final", "Temps total"));
+            ArrayList llistaProjectesArrel = getOrdenaDades().getLlistaProjectesArrel();
             for (int i = 0; i < llistaProjectesArrel.size(); i++) {
-                ArrayList nodaDades = (ArrayList) llistaProjectesArrel.get(i);
-                String nom = (String) nodaDades.get(0);
-                String inici = (String) nodaDades.get(1);
-                String fin = (String) nodaDades.get(2);
-                String total = (String) nodaDades.get(3);
-                printWriter.println(String.format(
-                        "%10s %40s %40s %40s \r\n", nom, inici, fin, total));
+                ArrayList node = (ArrayList) llistaProjectesArrel.get(i);
+                String nom = (String) node.get(0);
+                String dataInici = (String) node.get(1);
+                String dataFi = (String) node.get(2);
+                String total = (String) node.get(3);
+                printWriter.println(String.format("%10s %40s %40s %40s \r",
+                        nom, dataInici, dataFi, total));
             }
+            printWriter.println("-----------------------------------------"
+                    + "-------------------------------------------"
+                    + "--------------------------------------------------"
+                    +	"---------------------------------");
             printWriter.println("Subprojectes");
             printWriter.println("S'inclouen en la següent taula només els "
                     + "subprojectes que tinguin alguna tasca amb algun interval"
                     + " dins del període.");
             printWriter.println("\n");
             printWriter.println(String.format("%10s %30s %30s %30s %30s \r\n",
-                    "Nom ProjectePare", "Subprojecte", "Data Inici",
+                    "Nom projecte pare", "Subprojecte", "Data d'inici",
                     "Data final", "Temps total"));
-            ArrayList llistaSubprojectes =
-                    getOrdenaDades().getLlistaSubProjectes();
+            ArrayList llistaSubprojectes = getOrdenaDades().getLlistaSubProjectes();
             for (int i = 0; i < llistaSubprojectes.size(); i++) {
-                ArrayList nodaSubProj =
-                        (ArrayList) llistaSubprojectes.get(i);
-                String pare = "";
-                String nom = (String) nodaSubProj.get(0);
-                String inici = (String) nodaSubProj.get(1);
-                String fin = (String) nodaSubProj.get(2);
-                String total = (String) nodaSubProj.get(3);
+                ArrayList node = (ArrayList) llistaSubprojectes.get(i);
+                String pare = (String) node.get(0);
+                String nom = (String) node.get(1);
+                String inici = (String) node.get(2);
+                String fin = (String) node.get(3);
+                String total = (String) node.get(4);
                 printWriter.println(String.format(
-                        "%10s %30s %30s %30s %30s \r\n",
+                        "%10s %30s %30s %30s %30s \r",
                         pare, nom, inici, fin, total));
             }
             printWriter.println("-----------------------------------------"
@@ -133,19 +139,18 @@ public class Ascii extends Format {
                     +	" el projecte al qual pertanyen.");
             printWriter.println("\n");
             printWriter.println(String.format("%10s %30s %30s %30s %30s \r\n",
-                    "Nom ProjectePare", "Tasca", "Data Inici",
+                    "Nom projecte pare", "Tasca", "Data d'inici",
                     "Data final", "Temps total"));
-            ArrayList llistaTasca =
-                    getOrdenaDades().getLlistaTasques();
+            ArrayList llistaTasca = getOrdenaDades().getLlistaTasques();
             for (int i = 0; i < llistaTasca.size(); i++) {
-                ArrayList nodatasca = (ArrayList) llistaTasca.get(i);
-                String pare = "";
-                String nom = (String) nodatasca.get(0);
-                String inici = (String) nodatasca.get(1);
-                String fin = (String) nodatasca.get(2);
-                String total = (String) nodatasca.get(3);
-                printWriter.println(String.format("%10s %30s %30s %30s %30s "
-                    + "\r\n", pare, nom, inici, fin, total));
+                ArrayList node = (ArrayList) llistaTasca.get(i);
+                String pare = (String) node.get(0);
+                String nom = (String) node.get(1);
+                String inici = (String) node.get(2);
+                String fin = (String) node.get(3);
+                String total = (String) node.get(4);
+                printWriter.println(String.format("%10s %30s %30s %30s %30s \r",
+                        pare, nom, inici, fin, total));
             }
             printWriter.println("-----------------------------------------"
                     + "-------------------------------------------"
@@ -158,19 +163,20 @@ public class Ascii extends Format {
                     + "intervals entre la data inicial i final"
                     + " especificades, i la tasca i projecte al qual pertanyen.");
             printWriter.println("\n");
-            printWriter.println(String.format("%10s %30s %30s %30s %30s \r\n",
-                    "Nº", "Tasca", "Data Inici", "Data final", "Temps total"));
-            ArrayList llistaInter = getOrdenaDades().getLlistaIntervals();
-            for (int i = 0; i < llistaInter.size(); i++) {
-                ArrayList nodainter = (ArrayList) llistaInter.get(i);
-                String pare = "";
-                String num = String.valueOf(i);
-                String inici = (String) nodainter.get(0);
-                String fin = (String) nodainter.get(1);
-                String total = (String) nodainter.get(2);
+            printWriter.println(String.format("%10s %20s %20s %30s %30s %30s \r\n",
+                    "Projecte pare", "Tasca", "Nº interval", "Data d'inici", "Data final", "Temps total"));
+            ArrayList llistaIntervals = getOrdenaDades().getLlistaIntervals();
+            for (int i = 0; i < llistaIntervals.size(); i++) {
+                ArrayList node = (ArrayList) llistaIntervals.get(i);
+                String pare = (String) node.get(0);
+                String tasca = (String) node.get(1);
+                String num = (String) node.get(2);
+                String inici = (String) node.get(3);
+                String fin = (String) node.get(4);
+                String total = (String) node.get(5);
                 printWriter.println(String.format(
-                        "%10s %30s %30s %30s %30s \r\n",
-                        num, pare, inici, fin, total));
+                        "%10s %20s %20s %30s %30s %30s \r",
+                        pare, tasca, num, inici, fin, total));
             }
             printWriter.println("-----------------------------------------"
                     + "-------------------------------------------"
@@ -182,7 +188,6 @@ public class Ascii extends Format {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
     }
 
     public OrdenaDades getOrdenaDades() {

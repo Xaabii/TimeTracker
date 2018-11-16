@@ -1,9 +1,6 @@
 package core.ds.projecteds;
 
 
-import android.util.Log;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -23,16 +20,21 @@ public class Client extends Thread {
         //TestA2(projecteTest);
 
         logback.enregistrarInfo("Es carrega el projecte desitjat");
-        Fitxer f = new Fitxer();
+        /*Fitxer f = new Fitxer();
         Projecte p = f.importar("SERIALIZABLE.ser");
+        logback.enregistrarWarning("Possible error d'entrada i/o sortida");
         llegir(p);
-
+*/
+        Ascii arxiuAscii = new Ascii();
+        Html arxiuHtml = new Html();
 
         ArrayList<Date> dates = TestFita2(projecteTest);
         Date dataInicial = dates.get(0);
         Date dataFinal = dates.get(1);
-        new InformeBreu(projecteTest, dataInicial, dataFinal, "html");
-        //new InformeDetallat(projecteTest, dataInicial, dataFinal, "html");
+        new InformeBreu(projecteTest, dataInicial, dataFinal, arxiuAscii);
+        new InformeBreu(projecteTest, dataInicial, dataFinal, arxiuHtml);
+        new InformeDetallat(projecteTest, dataInicial, dataFinal, arxiuHtml);
+        new InformeDetallat(projecteTest, dataInicial, dataFinal, arxiuAscii);
     }
 
     private static void llegir(final Activitat p) {
@@ -57,7 +59,8 @@ public class Client extends Thread {
         Projecte projecte2 = projecte1.crearProjecte("projecte2", "dproj2");
         Tasca tasca1 = projecte2.crearTasca("tasca1", "dt1", duracioMinimaInterval);
         Tasca tasca2 = projecte2.crearTasca("tasca2", "dt2", duracioMinimaInterval);
-        Impressor impressor = new Impressor(projecteTest);
+        new Impressor(projecteTest);
+
 
         try {
             tasca3.comencaTasca();
@@ -133,6 +136,8 @@ public class Client extends Thread {
         Tasca tasca2 = projecte1.crearTasca("tasca2", "dt2", duracioMinimaInterval);
         Tasca tasca4 = projecte1_2.crearTasca("tasca4", "dt4", duracioMinimaInterval);
         Tasca tasca3 = projecte2.crearTasca("tasca3", "dt3", duracioMinimaInterval);
+
+        new Impressor(projecteTest);
 
         try {
             tasca1.comencaTasca();

@@ -5,8 +5,8 @@ import java.util.Collection;
 import java.util.Date;
 
 /**
- * És una abstracció d'Activitat, tot projecte pot tenir subprojectes
- * i/o tasques que penjen d'ell (seràn els seusfills)
+ * Classe Projecte: És una abstracció d'Activitat, tot projecte pot tenir subprojectes
+ * i/o tasques que penjen d'ell (seràn els seus fills).
  * Aquesta classe implementa la estructura Visitor.
  * N'accepta per tal d'imprimir i exportar i importar les dades desades.
  */
@@ -37,7 +37,11 @@ public class Projecte extends Activitat {
         return novaTasca;
     }
 
-
+    /*
+     * Mètode que actualitza la durada del projecte en funció de la durada dels seus
+     * fills, així com les dates inicial i final. És una funció recursiva
+     * de manera que es recòrre l'arbre cap amunt.
+     */
     public void actualitza(final Projecte projecteActual) {
         if (!projecteActual.getNom().equals("arrel")) {
             projecteActual.setDurada(0);
@@ -60,6 +64,10 @@ public class Projecte extends Activitat {
         }
     }
 
+    /*
+     * Mètode que actualitza les dades del projecte en el moment en què
+     * una tasca és iniciada.
+     */
     public void iniciTasca(final Tasca tasca) {
         if (this.getDataInicial() == null) {
             this.setDataInicial(tasca.getDataInicial());
@@ -68,8 +76,10 @@ public class Projecte extends Activitat {
         this.setDurada((getDataFinal().getTime() - getDataInicial().getTime()) / 1000);
     }
 
-    //Permet l'implementació del Visitor per a ell i els seus fills
-    // (recorrent tot l'arbre)
+    /*
+     * Permet l'implementació del Visitor per a ell i els seus fills
+     * (recorrent tot l'arbre)
+     */
     public void acceptaVisitor(final Visitor visitor) {
         if (!this.getNom().equals("arrel")) {
             actualitza(this);

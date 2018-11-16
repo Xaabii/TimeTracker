@@ -1,17 +1,15 @@
 package core.ds.projecteds;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Classe DadesInforme: Aquesta classe implementa el patró visitor. S'encarrega de recòrrer
- * l'arbre, i canviar i guardar les dades de l'informe.
+ * l'arbre, i canviar i guardar les dades que s'afegiran a l'informe.
  */
 public class DadesInforme extends VisitorDades {
-    /**
-     *
-     */
     private Projecte projecteSeleccionat;
     private Date dataInicialInforme;
     private Date dataFinalInforme;
@@ -24,44 +22,57 @@ public class DadesInforme extends VisitorDades {
         setProjecteSeleccionat(projecteDesitjat);
         OrdenaDades ord = OrdenaDades.getInstance();
         setOrdenaDades(ord);
-        System.out.println("LLISTA ARRELS: " + ord.getLlistaProjectesArrel());
-        System.out.println("LLISTA ARRELS SET: " + getOrdenaDades().getLlistaProjectesArrel());
         getOrdenaDades().netejaDades();
 
     }
 
-    public void generaBreu() {
+    public void generaBreu(final Format format) {
         getProjecteSeleccionat().acceptaVisitorDadesBreu(this,
                 getDataInicialInforme(), getDataFinalInforme());
+        format.breu(getDataInicialInforme(), getDataFinalInforme());
     }
 
-    public void generaDetallat() {
+    public void generaDetallat(final Format format) {
         getProjecteSeleccionat().acceptaVisitorDadesDetallat(this,
                 getDataInicialInforme(), getDataFinalInforme());
+        format.detallat(getDataInicialInforme(), getDataFinalInforme());
     }
 
-    public void visitaDetallat(final Projecte projecte, final Date dataInicial,
-                               final Date dataFinal) {
+    public void visitaDetallat(final Projecte projecte, final Date dataInicial, final Date dataFinal) {
+        final int mil = 1000;
         if (projecte != getProjecteSeleccionat()) {
-            final int mil = 1000;
             if (projecte.getPare() == getProjecteSeleccionat()) {
                 ArrayList<String> projecteDades = new ArrayList<>();
                 if (!(projecte.getDataFinal().compareTo(this.getDataInicialInforme()) < 0 || (projecte.getDataInicial().compareTo(this.getDataFinalInforme()) > 0))) {
                     projecteDades.add(projecte.getNom());
                     if (projecte.getDataInicial().compareTo(this.getDataInicialInforme()) < 0 && projecte.getDataFinal().compareTo(this.getDataFinalInforme()) < 0) {
-                        projecteDades.add(getDataInicialInforme().toString());
-                        projecteDades.add(projecte.getDataFinal().toString());
-                        double durada = (projecte.getDataFinal().getTime() - getDataInicialInforme().getTime()) / mil;
+                        String formatDateInicial = new SimpleDateFormat("dd-MM-yyyy, hh:mm:ss", Locale.US).format(getDataInicialInforme());
+                        projecteDades.add(formatDateInicial);
+                        String formatDateFinal = new SimpleDateFormat("dd-MM-yyyy, hh:mm:ss", Locale.US).format(projecte.getDataFinal());
+                        projecteDades.add(formatDateFinal);
+                        long durada = (projecte.getDataFinal().getTime() - getDataInicialInforme().getTime()) / mil;
                         projecteDades.add("" + durada);
                     } else if (projecte.getDataInicial().compareTo(this.getDataInicialInforme()) > 0 && projecte.getDataFinal().compareTo(this.getDataFinalInforme()) > 0) {
-                        projecteDades.add(projecte.getDataInicial().toString());
-                        projecteDades.add(getDataFinalInforme().toString());
-                        double durada = (getDataFinalInforme().getTime() - projecte.getDataInicial().getTime()) / mil;
+                        String formatDateInicial = new SimpleDateFormat("dd-MM-yyyy, hh:mm:ss", Locale.US).format(projecte.getDataInicial());
+                        projecteDades.add(formatDateInicial);
+                        String formatDateFinal = new SimpleDateFormat("dd-MM-yyyy, hh:mm:ss", Locale.US).format(getDataFinalInforme());
+                        projecteDades.add(formatDateFinal);
+                        long durada = (getDataFinalInforme().getTime() - projecte.getDataInicial().getTime()) / mil;
+                        projecteDades.add("" + durada);
+                    }  else if (projecte.getDataInicial().compareTo(this.getDataInicialInforme()) < 0 && projecte.getDataFinal().compareTo(this.getDataFinalInforme()) > 0 ) {
+                        String formatDateInicial = new SimpleDateFormat("dd-MM-yyyy, hh:mm:ss", Locale.US).format(getDataInicialInforme());
+                        projecteDades.add(formatDateInicial);
+                        String formatDateFinal = new SimpleDateFormat("dd-MM-yyyy, hh:mm:ss", Locale.US).format(getDataFinalInforme());
+                        projecteDades.add(formatDateFinal);
+                        long durada = (getDataFinalInforme().getTime() - getDataInicialInforme().getTime()) / mil;
                         projecteDades.add("" + durada);
                     } else {
-                        projecteDades.add(projecte.getDataInicial().toString());
-                        projecteDades.add(projecte.getDataFinal().toString());
-                        projecteDades.add("" + projecte.getDurada());
+                        String formatDateInicial = new SimpleDateFormat("dd-MM-yyyy, hh:mm:ss", Locale.US).format(projecte.getDataInicial());
+                        projecteDades.add(formatDateInicial);
+                        String formatDateFinal = new SimpleDateFormat("dd-MM-yyyy, hh:mm:ss", Locale.US).format(projecte.getDataFinal());
+                        projecteDades.add(formatDateFinal);
+                        long durada = (projecte.getDataFinal().getTime() - projecte.getDataInicial().getTime()) / mil;
+                        projecteDades.add("" + durada);
                     }
                     getOrdenaDades().getLlistaProjectesArrel().add(projecteDades);
                 }
@@ -71,19 +82,33 @@ public class DadesInforme extends VisitorDades {
                     projecteDades.add(projecte.getPare().getNom());
                     projecteDades.add(projecte.getNom());
                     if (projecte.getDataInicial().compareTo(this.getDataInicialInforme()) < 0 && projecte.getDataFinal().compareTo(this.getDataFinalInforme()) < 0) {
-                        projecteDades.add(getDataInicialInforme().toString());
-                        projecteDades.add(projecte.getDataFinal().toString());
-                        double durada = (projecte.getDataFinal().getTime() - getDataInicialInforme().getTime()) / mil;
+                        String formatDateInicial = new SimpleDateFormat("dd-MM-yyyy, hh:mm:ss", Locale.US).format(getDataInicialInforme());
+                        projecteDades.add(formatDateInicial);
+                        String formatDateFinal = new SimpleDateFormat("dd-MM-yyyy, hh:mm:ss", Locale.US).format(projecte.getDataFinal());
+                        projecteDades.add(formatDateFinal);
+                        long durada = (projecte.getDataFinal().getTime() - getDataInicialInforme().getTime()) / mil;
                         projecteDades.add("" + durada);
                     } else if (projecte.getDataInicial().compareTo(this.getDataInicialInforme()) > 0 && projecte.getDataFinal().compareTo(this.getDataFinalInforme()) > 0) {
-                        projecteDades.add(projecte.getDataInicial().toString());
-                        projecteDades.add(getDataFinalInforme().toString());
-                        double durada = (getDataFinalInforme().getTime() - projecte.getDataInicial().getTime()) / mil;
+                        String formatDateInicial = new SimpleDateFormat("dd-MM-yyyy, hh:mm:ss", Locale.US).format(projecte.getDataInicial());
+                        projecteDades.add(formatDateInicial);
+                        String formatDateFinal = new SimpleDateFormat("dd-MM-yyyy, hh:mm:ss", Locale.US).format(getDataFinalInforme());
+                        projecteDades.add(formatDateFinal);
+                        long durada = (getDataFinalInforme().getTime() - projecte.getDataInicial().getTime()) / mil;
+                        projecteDades.add("" + durada);
+                    }  else if (projecte.getDataInicial().compareTo(this.getDataInicialInforme()) < 0 && projecte.getDataFinal().compareTo(this.getDataFinalInforme()) > 0 ) {
+                        String formatDateInicial = new SimpleDateFormat("dd-MM-yyyy, hh:mm:ss", Locale.US).format(getDataInicialInforme());
+                        projecteDades.add(formatDateInicial);
+                        String formatDateFinal = new SimpleDateFormat("dd-MM-yyyy, hh:mm:ss", Locale.US).format(getDataFinalInforme());
+                        projecteDades.add(formatDateFinal);
+                        long durada = (getDataFinalInforme().getTime() - getDataInicialInforme().getTime()) / mil;
                         projecteDades.add("" + durada);
                     } else {
-                        projecteDades.add(projecte.getDataInicial().toString());
-                        projecteDades.add(projecte.getDataFinal().toString());
-                        projecteDades.add("" + projecte.getDurada());
+                        String formatDateInicial = new SimpleDateFormat("dd-MM-yyyy, hh:mm:ss", Locale.US).format(projecte.getDataInicial());
+                        projecteDades.add(formatDateInicial);
+                        String formatDateFinal = new SimpleDateFormat("dd-MM-yyyy, hh:mm:ss", Locale.US).format(projecte.getDataFinal());
+                        projecteDades.add(formatDateFinal);
+                        long durada = (projecte.getDataFinal().getTime() - projecte.getDataInicial().getTime()) / mil;
+                        projecteDades.add("" + durada);
                     }
                     getOrdenaDades().getLlistaSubProjectes().add(projecteDades);
                 }
@@ -101,31 +126,45 @@ public class DadesInforme extends VisitorDades {
                 tascaDades.add(tasca.getPare().getNom());
                 tascaDades.add(tasca.getNom());
                 if (tasca.getDataInicial().compareTo(this.getDataInicialInforme()) < 0 && tasca.getDataFinal().compareTo(this.getDataFinalInforme()) < 0) {
-                    tascaDades.add(getDataInicialInforme().toString());
-                    tascaDades.add(tasca.getDataFinal().toString());
-                    double durada = (tasca.getDataFinal().getTime() - getDataInicialInforme().getTime()) / mil;
+                    String formatDateInicial = new SimpleDateFormat("dd-MM-yyyy, hh:mm:ss", Locale.US).format(getDataInicialInforme());
+                    tascaDades.add(formatDateInicial);
+                    String formatDateFinal = new SimpleDateFormat("dd-MM-yyyy, hh:mm:ss", Locale.US).format(tasca.getDataFinal());
+                    tascaDades.add(formatDateFinal);
+                    long durada = (tasca.getDataFinal().getTime() - getDataInicialInforme().getTime()) / mil;
                     tascaDades.add("" + durada);
                 } else if (tasca.getDataInicial().compareTo(this.getDataInicialInforme()) > 0 && tasca.getDataFinal().compareTo(this.getDataFinalInforme()) > 0) {
-                    tascaDades.add(tasca.getDataInicial().toString());
-                    tascaDades.add(getDataFinalInforme().toString());
-                    double durada = (getDataFinalInforme().getTime() - tasca.getDataInicial().getTime()) / mil;
+                    String formatDateInicial = new SimpleDateFormat("dd-MM-yyyy, hh:mm:ss", Locale.US).format(tasca.getDataInicial());
+                    tascaDades.add(formatDateInicial);
+                    String formatDateFinal = new SimpleDateFormat("dd-MM-yyyy, hh:mm:ss", Locale.US).format(getDataFinalInforme());
+                    tascaDades.add(formatDateFinal);
+                    long durada = (getDataFinalInforme().getTime() - tasca.getDataInicial().getTime()) / mil;
+                    tascaDades.add("" + durada);
+                }  else if (tasca.getDataInicial().compareTo(this.getDataInicialInforme()) < 0 && tasca.getDataFinal().compareTo(this.getDataFinalInforme()) > 0 ) {
+                    String formatDateInicial = new SimpleDateFormat("dd-MM-yyyy, hh:mm:ss", Locale.US).format(getDataInicialInforme());
+                    tascaDades.add(formatDateInicial);
+                    String formatDateFinal = new SimpleDateFormat("dd-MM-yyyy, hh:mm:ss", Locale.US).format(getDataFinalInforme());
+                    tascaDades.add(formatDateFinal);
+                    long durada = (getDataFinalInforme().getTime() - getDataInicialInforme().getTime()) / mil;
                     tascaDades.add("" + durada);
                 } else {
-                    tascaDades.add(tasca.getDataInicial().toString());
-                    tascaDades.add(tasca.getDataFinal().toString());
-                    tascaDades.add("" + tasca.getDurada());
+                    String formatDateInicial = new SimpleDateFormat("dd-MM-yyyy, hh:mm:ss", Locale.US).format(tasca.getDataInicial());
+                    tascaDades.add(formatDateInicial);
+                    String formatDateFinal = new SimpleDateFormat("dd-MM-yyyy, hh:mm:ss", Locale.US).format(tasca.getDataFinal());
+                    tascaDades.add(formatDateFinal);
+                    long durada = (tasca.getDataFinal().getTime() - tasca.getDataInicial().getTime()) / mil;
+                    tascaDades.add("" + durada);
                 }
                 getOrdenaDades().getLlistaTasques().add(tascaDades);
             }
             int id = 1;
             for (Interval interval : tasca.getIntervals()) {
-                interval.acceptVisitorDades(this, dataInicial, dataFinal, tasca, id);
+                interval.acceptVisitorDades(this, tasca, id);
                 id++;
             }
         }
     }
 
-    public void visitaDetallatInterval(final Interval interval, final Date dataInicial, final Date dataFinal, final Tasca pare, final int id) {
+    public void visitaDetallatInterval(final Interval interval, final Tasca pare, final int id) {
         ArrayList<String> intervalDades = new ArrayList<>();
         final int mil = 1000;
         if (!(interval.getDataFinal().compareTo(this.getDataInicialInforme()) < 0 || (interval.getDataInicial().compareTo(this.getDataFinalInforme()) > 0))) {
@@ -133,19 +172,33 @@ public class DadesInforme extends VisitorDades {
             intervalDades.add(pare.getNom());
             intervalDades.add("" + id);
             if (interval.getDataInicial().compareTo(this.getDataInicialInforme()) < 0 && interval.getDataFinal().compareTo(this.getDataFinalInforme()) < 0) {
-                intervalDades.add(getDataInicialInforme().toString());
-                intervalDades.add(interval.getDataFinal().toString());
-                double durada = (interval.getDataFinal().getTime() - getDataInicialInforme().getTime()) / mil;
+                String formatDateInicial = new SimpleDateFormat("dd-MM-yyyy, hh:mm:ss", Locale.US).format(getDataInicialInforme());
+                intervalDades.add(formatDateInicial);
+                String formatDateFinal = new SimpleDateFormat("dd-MM-yyyy, hh:mm:ss", Locale.US).format(interval.getDataFinal());
+                intervalDades.add(formatDateFinal);
+                long durada = (interval.getDataFinal().getTime() - getDataInicialInforme().getTime()) / mil;
                 intervalDades.add("" + durada);
             } else if (interval.getDataInicial().compareTo(this.getDataInicialInforme()) > 0 && interval.getDataFinal().compareTo(this.getDataFinalInforme()) > 0) {
-                intervalDades.add(interval.getDataInicial().toString());
-                intervalDades.add(getDataFinalInforme().toString());
-                double durada = (getDataFinalInforme().getTime() - interval.getDataInicial().getTime()) / mil;
+                String formatDateInicial = new SimpleDateFormat("dd-MM-yyyy, hh:mm:ss", Locale.US).format(interval.getDataInicial());
+                intervalDades.add(formatDateInicial);
+                String formatDateFinal = new SimpleDateFormat("dd-MM-yyyy, hh:mm:ss", Locale.US).format(getDataFinalInforme());
+                intervalDades.add(formatDateFinal);
+                long durada = (getDataFinalInforme().getTime() - interval.getDataInicial().getTime()) / mil;
+                intervalDades.add("" + durada);
+            }  else if (interval.getDataInicial().compareTo(this.getDataInicialInforme()) < 0 && interval.getDataFinal().compareTo(this.getDataFinalInforme()) > 0 ) {
+                String formatDateInicial = new SimpleDateFormat("dd-MM-yyyy, hh:mm:ss", Locale.US).format(getDataInicialInforme());
+                intervalDades.add(formatDateInicial);
+                String formatDateFinal = new SimpleDateFormat("dd-MM-yyyy, hh:mm:ss", Locale.US).format(getDataFinalInforme());
+                intervalDades.add(formatDateFinal);
+                long durada = (getDataFinalInforme().getTime() - getDataInicialInforme().getTime()) / mil;
                 intervalDades.add("" + durada);
             } else {
-                intervalDades.add(interval.getDataInicial().toString());
-                intervalDades.add(interval.getDataFinal().toString());
-                intervalDades.add("" + interval.getDurada());
+                String formatDateInicial = new SimpleDateFormat("dd-MM-yyyy, hh:mm:ss", Locale.US).format(interval.getDataInicial());
+                intervalDades.add(formatDateInicial);
+                String formatDateFinal = new SimpleDateFormat("dd-MM-yyyy, hh:mm:ss", Locale.US).format(interval.getDataFinal());
+                intervalDades.add(formatDateFinal);
+                long durada = (interval.getDataFinal().getTime() - interval.getDataInicial().getTime()) / mil;
+                intervalDades.add("" + durada);
             }
             getOrdenaDades().getLlistaIntervals().add(intervalDades);
         }
@@ -160,19 +213,33 @@ public class DadesInforme extends VisitorDades {
                 if (!(projecte.getDataFinal().compareTo(this.getDataInicialInforme()) < 0 || (projecte.getDataInicial().compareTo(this.getDataFinalInforme()) > 0))) {
                     projecteDades.add(projecte.getNom());
                     if (projecte.getDataInicial().compareTo(this.getDataInicialInforme()) < 0 && projecte.getDataFinal().compareTo(this.getDataFinalInforme()) < 0) {
-                        projecteDades.add(getDataInicialInforme().toString());
-                        projecteDades.add(projecte.getDataFinal().toString());
-                        double durada = (projecte.getDataFinal().getTime() - getDataInicialInforme().getTime()) / mil;
+                        String formatDateInicial = new SimpleDateFormat("dd-MM-yyyy, hh:mm:ss", Locale.US).format(getDataInicialInforme());
+                        projecteDades.add(formatDateInicial);
+                        String formatDateFinal = new SimpleDateFormat("dd-MM-yyyy, hh:mm:ss", Locale.US).format(projecte.getDataFinal());
+                        projecteDades.add(formatDateFinal);
+                        long durada = (projecte.getDataFinal().getTime() - getDataInicialInforme().getTime()) / mil;
                         projecteDades.add("" + durada);
                     } else if (projecte.getDataInicial().compareTo(this.getDataInicialInforme()) > 0 && projecte.getDataFinal().compareTo(this.getDataFinalInforme()) > 0) {
-                        projecteDades.add(projecte.getDataInicial().toString());
-                        projecteDades.add(getDataFinalInforme().toString());
-                        double durada = (getDataFinalInforme().getTime() - projecte.getDataInicial().getTime()) / mil;
+                        String formatDateInicial = new SimpleDateFormat("dd-MM-yyyy, hh:mm:ss", Locale.US).format(projecte.getDataInicial());
+                        projecteDades.add(formatDateInicial);
+                        String formatDateFinal = new SimpleDateFormat("dd-MM-yyyy, hh:mm:ss", Locale.US).format(getDataFinalInforme());
+                        projecteDades.add(formatDateFinal);
+                        long durada = (getDataFinalInforme().getTime() - projecte.getDataInicial().getTime()) / mil;
+                        projecteDades.add("" + durada);
+                    }  else if (projecte.getDataInicial().compareTo(this.getDataInicialInforme()) < 0 && projecte.getDataFinal().compareTo(this.getDataFinalInforme()) > 0 ) {
+                        String formatDateInicial = new SimpleDateFormat("dd-MM-yyyy, hh:mm:ss", Locale.US).format(getDataInicialInforme());
+                        projecteDades.add(formatDateInicial);
+                        String formatDateFinal = new SimpleDateFormat("dd-MM-yyyy, hh:mm:ss", Locale.US).format(getDataFinalInforme());
+                        projecteDades.add(formatDateFinal);
+                        long durada = (getDataFinalInforme().getTime() - getDataInicialInforme().getTime()) / mil;
                         projecteDades.add("" + durada);
                     } else {
-                        projecteDades.add(projecte.getDataInicial().toString());
-                        projecteDades.add(projecte.getDataFinal().toString());
-                        projecteDades.add("" + projecte.getDurada());
+                        String formatDateInicial = new SimpleDateFormat("dd-MM-yyyy, hh:mm:ss", Locale.US).format(projecte.getDataInicial());
+                        projecteDades.add(formatDateInicial);
+                        String formatDateFinal = new SimpleDateFormat("dd-MM-yyyy, hh:mm:ss", Locale.US).format(projecte.getDataFinal());
+                        projecteDades.add(formatDateFinal);
+                        long durada = (projecte.getDataFinal().getTime() - projecte.getDataInicial().getTime()) / mil;
+                        projecteDades.add("" + durada);
                     }
                     getOrdenaDades().getLlistaProjectesArrel().add(projecteDades);
                 }

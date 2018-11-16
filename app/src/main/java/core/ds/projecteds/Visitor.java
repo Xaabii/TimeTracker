@@ -1,6 +1,6 @@
 package core.ds.projecteds;
 
-/**
+/*
  * Classe Visitor: Classe abstracta que implementa el patró visitor.
  */
 abstract class Visitor {

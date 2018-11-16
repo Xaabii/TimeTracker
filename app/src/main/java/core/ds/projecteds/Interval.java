@@ -6,7 +6,7 @@ import java.util.Observer;
 
 /**
  * Classe Interval: Forma part del patró observer, en cada tick del rellotge
- * actualitza les dades.
+ * actualitza les dades. Cada interval pertany a una tasca.
  */
 class Interval implements Observer, Serializable {
 
@@ -25,14 +25,20 @@ class Interval implements Observer, Serializable {
         setDurada((getDataFinal().getTime() - getDataInicial().getTime()) / 1000);
     }
 
+    /*
+     * Quan es finalitza la tasca, es crida a aquest mètode que
+     * elimina l'interval dels observadors del rellotge, i actualitza la durada.
+     */
     public void finalitzaInterval() {
         Rellotge rellotge = Rellotge.getInstance();
         rellotge.deleteObserver(this);
         setDurada((getDataFinal().getTime() - getDataInicial().getTime()) / 1000);
     }
 
-    //Mètode del patró de disseny Observer, que rep la notificació
-    // del canvi d'estat del rellotge.
+    /*
+     * Mètode del patró de disseny Observer, que rep la notificació
+     * del canvi d'estat del rellotge.
+     */
     @Override
     public void update(Observable o, Object arg) {
         Rellotge updateRellotge = (Rellotge) o;
@@ -41,8 +47,8 @@ class Interval implements Observer, Serializable {
         getTascaPare().actualitza();
     }
 
-    public void acceptVisitorDades(final VisitorDades visitor, final Date dataInicial, final Date dataFinal, final Tasca pare, final int id) {
-        visitor.visitaDetallatInterval(this, dataInicial, dataFinal, pare, id);
+    public void acceptVisitorDades(final VisitorDades visitor, final Tasca pare, final int id) {
+        visitor.visitaDetallatInterval(this, pare, id);
     }
 
     private Tasca getTascaPare() {

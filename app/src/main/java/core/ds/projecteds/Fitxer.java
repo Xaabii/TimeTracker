@@ -3,7 +3,7 @@ import java.io.*;
 
 /**
  * Classe Fitxer: Classe que implementa el visitor que permet exportar i importar
- * el projecte.
+ * el projecte en un fitxer.
  */
 public class Fitxer extends Visitor {
     @Override
@@ -24,16 +24,15 @@ public class Fitxer extends Visitor {
             sortida.close();
             fitxerSortida.close();
         } catch (IOException e) {
+
             e.printStackTrace();
+
+
         }
     }
 
-    /**
-     *
-     * @param direccio direccio on importar
-     * @return projecte
-     */
     public Projecte importar(String direccio) {
+        Logback logback = Logback.getInstance();
         Projecte projecte = null;
         try {
             FileInputStream fitxerEntrada = new FileInputStream(direccio);
@@ -41,12 +40,15 @@ public class Fitxer extends Visitor {
             try {
                 projecte = (Projecte) objecteEntrada.readObject();
             } catch (ClassNotFoundException e) {
+                logback.enregistrarError("Error, classe no trobada");
                 e.printStackTrace();
             }
             objecteEntrada.close();
             fitxerEntrada.close();
         } catch (IOException i) {
+            logback.enregistrarError("Error d'entrada i/o sortida");
             i.printStackTrace();
+
         }
         return projecte;
     }

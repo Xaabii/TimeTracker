@@ -20,15 +20,9 @@ public class Tasca extends Activitat {
     private Interval intervalActual;
     private boolean tascaIniciada;
 
-    public Tasca(final String nom, final String descripcio, final Projecte paref, final double duradaMinima) {
-        //Precondicions
-        assert(!nom.equals(null));
-        assert(!descripcio.equals(null));
-        assert(!paref.equals(null));
-        assert(duradaMinima >= 0);
-
-        this.setNom(nom);
-        this.setDescripcio(descripcio);
+    public Tasca(final String nomTasca, final String descripcioTasca, final Projecte paref, final double duradaMinima) {
+        this.setNom(nomTasca);
+        this.setDescripcio(descripcioTasca);
         this.setPare(paref);
         this.setDataInicial(null);
         this.setDataFinal(null);
@@ -36,12 +30,12 @@ public class Tasca extends Activitat {
         this.setDuradaMinima(duradaMinima);
         this.setTascaActivada(false);
         this.setTascaIniciada(false);
-        comprovaInvariant();
+        this.comprovaInvariant();
     }
 
     public void comencaTasca() {
         //Precondicions
-        assert(!isTascaActivada());
+        assert(!tascaActivada);
         if (!isTascaActivada()) {
             Interval nouInterval = new Interval(this);
             setIntervalActual(nouInterval);
@@ -53,27 +47,32 @@ public class Tasca extends Activitat {
             intervals.add(nouInterval);
         }
         //Postcondicions
-        assert(isTascaActivada());
-        assert(isTascaIniciada());
-        assert(!getIntervals().isEmpty());
+        assert(tascaActivada);
+        assert(tascaIniciada);
+        assert(!intervals.isEmpty());
     }
 
     public void acabaTasca() {
         //Precondicions
-        assert(isTascaIniciada());
-        assert(isTascaActivada());
+        assert(tascaIniciada);
+        assert(tascaActivada);
         if (isTascaActivada()) {
             setTascaActivada(false);
             getIntervalActual().finalitzaInterval();
             comprovarDurada(getIntervalActual());
         }
         //Postcondicions
-        assert(!isTascaActivada());
+        assert(!tascaActivada);
     }
 
-    //Es comprova si la durada minima del interval es compleix, si no, es descarta.
-    // Si es compleix s'actualitza la durada i la data final de la tasca.
+    /*
+     *Es comprova si la durada minima del interval es compleix, si no, es descarta.
+     * Si es compleix s'actualitza la durada i la data final de la tasca.
+     */
     private void comprovarDurada(Interval interval) {
+        //Precondicions
+        assert(!interval.equals(null));
+        assert(duradaMinima >= 0);
         if (interval.getDurada() < getDuradaMinima()) {
             this.intervals.remove(interval);
             Rellotge.getInstance().deleteObserver(interval);
@@ -87,6 +86,10 @@ public class Tasca extends Activitat {
         }
     }
 
+    /*
+     * S'actualitza la durada de la tasca, fent el sumatori de la durada
+     * de tots els seus intervals.
+     */
     public void actualitza() {
         if (!this.getIntervals().isEmpty()) {
             this.setDataFinal(getIntervalActual().getDataFinal());
@@ -109,26 +112,14 @@ public class Tasca extends Activitat {
         visitor.visitaTasca(this);
     }
 
-
     public void acceptaVisitorDades(final VisitorDades visitor, final Date dataInicial, final Date dataFinal) {
         visitor.visitaDetallatTasca(this, dataInicial, dataFinal);
     }
 
     public void comprovaInvariant() {
-        assert(!getNom().equals(null));
-        assert(!getPare().equals(null));
-        assert(!getDescripcio().equals(null));
-        assert(!isTascaActivada() || isTascaActivada());
-        if(!getIntervals().isEmpty()) {
-            assert(getDataInicial().compareTo(getDataFinal()) <= getDuradaMinima());
-            assert(getDurada() >= getDuradaMinima());
-            assert(isTascaIniciada());
-        } else {
-            assert(getDataInicial().equals(null));
-            assert(getDataFinal().equals(null));
-            assert(getDurada() == 0);
-            assert(!isTascaIniciada());
-        }
+        this.invariant();
+        assert(!tascaActivada || tascaActivada);
+        assert(!tascaIniciada || tascaIniciada);
     }
 
     public Collection<Interval> getIntervals() {

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2018-11-16T22:45:27</date>
+  <millis>1542404727812</millis>
+  <sequence>0</sequence>
+  <logger>Info Log</logger>
+  <level>INFO</level>
+  <class>core.ds.projecteds.Logback</class>
+  <method>enregistrarInfo</method>
+  <thread>1</thread>
+  <message>Es carrega el projecte desitjat</message>
+</record>
+de nov. 16, 2018 10:45:27 PM core.ds.projecteds.Logback enregistrarInfo
+INFORMACIÓN: Inici test Fita 2
