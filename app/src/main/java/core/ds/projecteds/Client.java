@@ -14,20 +14,21 @@ public class Client extends Thread {
         Rellotge rellotge = Rellotge.getInstance();
         new Tick(duracioInterval, rellotge);
         Projecte projecteTest = new Projecte("arrel", "arrel", null);
-        //TestA1(projecteTest);
+        TestA1(projecteTest);
 
-        //projecteTest = new Projecte("arrel", "arrel", null);
-        //TestA2(projecteTest);
+        projecteTest = new Projecte("arrel", "arrel", null);
+        TestA2(projecteTest);
 
         logback.enregistrarInfo("Es carrega el projecte desitjat");
-        /*Fitxer f = new Fitxer();
+        Fitxer f = new Fitxer();
         Projecte p = f.importar("SERIALIZABLE.ser");
         logback.enregistrarWarning("Possible error d'entrada i/o sortida");
         llegir(p);
-*/
+
         Ascii arxiuAscii = new Ascii();
         Html arxiuHtml = new Html();
 
+        projecteTest = new Projecte("arrel", "arrel", null);
         ArrayList<Date> dates = TestFita2(projecteTest);
         Date dataInicial = dates.get(0);
         Date dataFinal = dates.get(1);

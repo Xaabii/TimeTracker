@@ -118,7 +118,7 @@ public class DadesInforme extends VisitorDades {
 
     }
 
-    public void visitaDetallatTasca(final Tasca tasca, final Date dataInicial, final Date dataFinal) {
+    public void visitaDetallatTasca(final Tasca tasca) {
         final int mil = 1000;
         ArrayList<String> tascaDades = new ArrayList<>();
         if (tasca.isTascaIniciada()) {

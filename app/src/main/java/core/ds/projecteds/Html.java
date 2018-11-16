@@ -13,7 +13,7 @@ import java.util.Date;
  */
 public class Html extends Format {
     public OrdenaDades ordenaDades;
-    public paginaweb.PaginaWeb paginaWeb = new paginaweb.PaginaWeb(); ;
+    public paginaweb.PaginaWeb paginaWeb = new paginaweb.PaginaWeb();
     public Html() {
         setOrdenaDades(OrdenaDades.getInstance());
 

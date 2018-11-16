@@ -8,6 +8,6 @@ import java.util.Date;
 abstract class VisitorDades {
     public abstract void visitaBreu(Projecte projecte, Date dataInicial, Date dataFinal);
     public abstract void visitaDetallat(Projecte projecte, Date dataInicial, Date dataFinal);
-    public abstract void visitaDetallatTasca(Tasca tasca, Date dataInicial, Date dataFinal);
+    public abstract void visitaDetallatTasca(Tasca tasca);
     public abstract void visitaDetallatInterval(Interval interval, final Tasca pare, final int id);
 }
