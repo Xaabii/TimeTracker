@@ -1,6 +1,8 @@
 package core.ds.projecteds;
 
 
+import android.util.Log;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,6 +13,7 @@ public class Client extends Thread {
 
     public static void main(final String[] args) {
         final long duracioInterval = 2000;
+        Logback logback = Logback.getInstance();
         Rellotge rellotge = Rellotge.getInstance();
         new Tick(duracioInterval, rellotge);
         Projecte projecteTest = new Projecte("arrel", "arrel", null);
@@ -19,14 +22,17 @@ public class Client extends Thread {
         //projecteTest = new Projecte("arrel", "arrel", null);
         //TestA2(projecteTest);
 
-       /* Fitxer f = new Fitxer();
+        logback.enregistrarInfo("Es carrega el projecte desitjat");
+        Fitxer f = new Fitxer();
         Projecte p = f.importar("SERIALIZABLE.ser");
-        llegir(p);*/
-       ArrayList<Date> dates = TestFita2(projecteTest);
-       Date dataInicial = dates.get(0);
-       Date dataFinal = dates.get(1);
-       new InformeBreu(projecteTest, dataInicial, dataFinal, "html");
-       //new InformeDetallat(projecteTest, dataInicial, dataFinal, "html");
+        llegir(p);
+
+
+        ArrayList<Date> dates = TestFita2(projecteTest);
+        Date dataInicial = dates.get(0);
+        Date dataFinal = dates.get(1);
+        new InformeBreu(projecteTest, dataInicial, dataFinal, "html");
+        //new InformeDetallat(projecteTest, dataInicial, dataFinal, "html");
     }
 
     private static void llegir(final Activitat p) {
@@ -40,7 +46,8 @@ public class Client extends Thread {
     }
 
     private static void TestA1(final Projecte projecteTest) {
-        System.out.println("--------- TEST A1 ---------");
+        Logback logback = Logback.getInstance();
+        logback.enregistrarInfo("Inici test A1");
         final int tresMil = 3000;
         final int setMil = 7000;
         final int deuMil = 10000;
@@ -51,7 +58,6 @@ public class Client extends Thread {
         Tasca tasca1 = projecte2.crearTasca("tasca1", "dt1", duracioMinimaInterval);
         Tasca tasca2 = projecte2.crearTasca("tasca2", "dt2", duracioMinimaInterval);
         Impressor impressor = new Impressor(projecteTest);
-        //Fitxer fitxer = new Fitxer();
 
         try {
             tasca3.comencaTasca();
@@ -65,15 +71,15 @@ public class Client extends Thread {
             sleep(dosMil);
             tasca3.acabaTasca();
 
-            //projecteTest.acceptaVisitor(fitxer);
-
         } catch (InterruptedException e) {
+            logback.enregistrarError("Sleep ha donat error en el test A1");
             e.printStackTrace();
         }
     }
 
     private static void TestA2(final Projecte projecteTest) {
-        System.out.println("\n\n--------- TEST A2 ---------");
+        Logback logback = Logback.getInstance();
+        logback.enregistrarInfo("Inici test A2");
         final int quatreMil = 4000;
         final int dosMil = 2000;
 
@@ -83,7 +89,7 @@ public class Client extends Thread {
         Projecte projecte2 = projecte1.crearProjecte("projecte2", "dproj2");
         Tasca tasca1 = projecte2.crearTasca("tasca1", "dt1", duracioMinimaInterval);
         Tasca tasca2 = projecte2.crearTasca("tasca2", "dt2", duracioMinimaInterval);
-        Impressor impressor = new Impressor(projecteTest);
+        new Impressor(projecteTest);
         Fitxer fitxer = new Fitxer();
 
         try {
@@ -103,15 +109,16 @@ public class Client extends Thread {
             sleep(dosMil);
             tasca3.acabaTasca();
         } catch (InterruptedException e) {
+            logback.enregistrarError("Sleep ha donat error en el test A2");
             e.printStackTrace();
         }
-        projecteTest.acceptaVisitor(impressor);
-        projecteTest.acceptaVisitor(fitxer);
+
         fitxer.exportar("SERIALIZABLE.ser", projecteTest);
     }
 
     private static ArrayList<Date> TestFita2(final Projecte projecteTest) {
-        System.out.println("\n\n--------- TEST FITA 2 ---------");
+        Logback logback = Logback.getInstance();
+        logback.enregistrarInfo("Inici test Fita 2");
         final int quatreMil = 4000;
         final int dosMil = 2000;
         final int sisMil = 6000;
@@ -126,10 +133,6 @@ public class Client extends Thread {
         Tasca tasca2 = projecte1.crearTasca("tasca2", "dt2", duracioMinimaInterval);
         Tasca tasca4 = projecte1_2.crearTasca("tasca4", "dt4", duracioMinimaInterval);
         Tasca tasca3 = projecte2.crearTasca("tasca3", "dt3", duracioMinimaInterval);
-
-
-        Impressor impressor = new Impressor(projecteTest);
-        Fitxer fitxer = new Fitxer();
 
         try {
             tasca1.comencaTasca();
@@ -154,11 +157,10 @@ public class Client extends Thread {
             dates.add(dataInicial);
             dates.add(dataFinal);
         } catch (InterruptedException e) {
+            logback.enregistrarError("Sleep ha donat error en el test de la fita 2");
             e.printStackTrace();
         }
 
-        //projecteTest.acceptaVisitor(fitxer);
-        //fitxer.exportar("SERIALIZABLE.ser", projecteTest);
         return dates;
     }
 }
